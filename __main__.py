@@ -1,4 +1,5 @@
-import os
+import re
+from tqdm import tqdm
 from time import sleep
 from config import Config
 from selenium.webdriver.common.by import By
@@ -60,7 +61,7 @@ class MapsScraper (Web_scraping):
         sleep (5)
         self.refresh_selenium ()
 
-    def __extract__ (self):
+    def __extract_maps__ (self):
         """ Get all data in google maps, for the current results screen
 
         Returns:
@@ -146,6 +147,33 @@ class MapsScraper (Web_scraping):
             if len (self.registers) == self.max_results:
                 break
 
+    def __extract_emails__ (self):
+
+        # Loop for each register
+        print ("Scraping emails from web pages...")
+        for register in tqdm(self.registers):
+            
+            # Get wehb page
+            web_page = register[-1]
+
+            # Try to open page
+            try:
+                self.set_page (web_page)
+            except: 
+                continue
+            html_code = self.driver.page_source
+            
+            # Get emails with re
+            regex_email = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
+            emails = regex_email.findall (html_code)
+            if emails:
+                emails = ",".join (emails)
+            else:
+                emails = ""
+
+            # save emails
+            register.append (emails)
+
     def __send_google_sheets__ (self, data:list):
         """ Submit data to google sheet 
 
@@ -166,7 +194,7 @@ class MapsScraper (Web_scraping):
             last_registers = len (self.registers)
 
             # Scrape current page
-            self.__extract__ ()
+            self.__extract_maps__ ()
 
             new_registers = len (self.registers)
 
@@ -176,6 +204,9 @@ class MapsScraper (Web_scraping):
 
             # Load more results
             self.__load_next_results__ ()
+
+        # Extract emails data
+        self.__extract_emails__ ()
 
 def main (): 
 
