@@ -5,17 +5,24 @@ from selenium.webdriver.common.by import By
 from scraping_manager.automate import Web_scraping
 
 class MapsScraper (Web_scraping):
-    def __init__ (self, keywords, city, max_results, get_emails, show_browser):
+    def __init__ (self, keywords, city, max_results, get_emails, 
+                    show_browser, required_data, filters):
+
         # Class variables
         self.keywords = keywords
         self.city = city
         self.max_results = max_results
         self.get_emails = get_emails
         self.show_browser = show_browser
+        self.filters = filters
+
+        # Save list of required elements
+        self.required_data = list(filter (lambda name: required_data[name], required_data))
 
         # Start scraper
         super().__init__ (headless= not show_browser)
 
+        # List for save the history of the registers scraped
         self.scraped_business = []
 
     def __search__ (self):
@@ -113,16 +120,19 @@ class MapsScraper (Web_scraping):
 
 def main (): 
 
-    # Get credentials from config
+    # Get general credentials credentials from config
     credentials = Config ()
     keywords = credentials.get ('keywords')
     city = credentials.get ('city')
     max_results = credentials.get ('max_results')
     get_emails = credentials.get ('get_emails')
     show_browser = credentials.get ('show_browser')
+    required_data = credentials.get ('required_data')
+    filters = credentials.get ('filters')
 
     # Start scraper
-    maps = MapsScraper (keywords, city, max_results, get_emails, show_browser)
+    maps = MapsScraper (keywords, city, max_results, get_emails, 
+                        show_browser, required_data, filters)
     maps.auto_run ()
 
     print ()
