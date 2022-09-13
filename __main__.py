@@ -34,7 +34,7 @@ class MapsScraper (Web_scraping):
         self.selector_results = f'{self.selector_results_wrapper} > div'
 
         # History of business scraped
-        self.business_names = []
+        self.business_links = []
 
         # Data extracted
         self.registers = []
@@ -79,6 +79,7 @@ class MapsScraper (Web_scraping):
 
             # css selector for extract data
             selectors = {
+                "link": 'a[href^="https://www.google.com"]',
                 "name": ".NrDZNb .qBF1Pd.fontHeadlineSmall",
                 "reviews_number": ".W4Efsd:nth-child(3) span.UY7F9",
                 "reviews_note": ".W4Efsd:nth-child(3) span.MW4etd",
@@ -109,10 +110,21 @@ class MapsScraper (Web_scraping):
 
 
                 if elem_found:
-                    if name == "web_page":
+                    if name in ["web_page", "link"]:
                         # Extract web page link
                         link = elem.get_attribute("href")
                         row.append (link)
+
+                        # Validate current bussiness in history
+                        if name=="link":
+                            if link in self.business_links:
+                                # Skip business
+                                save_row = False
+                                break
+
+                            else:
+                                # Save in history
+                                self.business_links.append (link)
                     else:
                         # Extract visible text
                         text = elem.text
@@ -120,17 +132,6 @@ class MapsScraper (Web_scraping):
                         # Clean text and save
                         text = text.replace ("(", "").replace(")", "")
                         row.append(text)
-
-                        # Validate current bussiness in history
-                        if name=="name":
-                            if text in self.business_names:
-                                # Skip business
-                                save_row = False
-                                break
-
-                            else:
-                                # Save in history
-                                self.business_names.append (text)
                 
             # save current row
             if save_row:
@@ -138,8 +139,8 @@ class MapsScraper (Web_scraping):
                 # Validate user filters
                 reviews_number_text = self.filters["reviews_number"]
                 reviews_note_text = self.filters["reviews_note"]
-                reviews_number_filter = f"{row[1].replace(',', '')} {reviews_number_text}"
-                reviews_note_filter = f"{row[2].replace(',', '')} {reviews_note_text}"
+                reviews_number_filter = f"{row[2].replace(',', '')} {reviews_number_text}"
+                reviews_note_filter = f"{row[3].replace(',', '')} {reviews_note_text}"
 
                 if eval(reviews_number_filter) and eval(reviews_note_filter):
 
@@ -196,7 +197,7 @@ class MapsScraper (Web_scraping):
         ss = SSManager (self.google_sheet_link, credentials_path, self.google_sheet_name)
 
         # Add header to registers
-        header = ["Name", "Reviews num", "Reviews note", "Location", "Details", "Web page", "Emails"]
+        header = ["Link", "Name", "Reviews num", "Reviews note", "Location", "Details", "Web page", "Emails"]
         self.registers.insert (0, header)
         
         # Send data cleaning sheet
