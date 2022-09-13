@@ -6,7 +6,7 @@ import time
 import sys
 from oauth2client.service_account import ServiceAccountCredentials
 
-class SS_manager (): 
+class SSManager (): 
     """ Class to conect to google shets and upload data"""
 
     def __init__ (self, google_sheet_link, creds_path, sheet_name=None): 
@@ -34,14 +34,16 @@ class SS_manager ():
         """
         self.worksheet.update_cell(row, column, value)
 
-    def write_data (self, data, row=1, column=1): 
+    def write_data (self, data, row=1, column=1, clear_sheet=False): 
         """ Write list of data in the worksheet"""
+
+        if clear_sheet:
+            self.worksheet.clear ()
         
         # check if data exist
         if not data: 
             print ("THERE IS NO NEW INFORMATION TO WRITE IN THE FILE.")
         else:
-            print ("Writing information on spreadsheet...")
 
             # Loop for each row of data
             for row_data in data: 
@@ -53,7 +55,7 @@ class SS_manager ():
                     column_index = row_data.index (cell) + column
 
                     # Write data in gss
-                    print (row_index, column_index, cell)
+                    # print (row_index, column_index, cell)
                     self.write_cell (cell, row_index, column_index)
 
     def get_data (self): 

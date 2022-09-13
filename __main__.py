@@ -1,13 +1,15 @@
+import os
 import re
 from tqdm import tqdm
 from time import sleep
 from config import Config
 from selenium.webdriver.common.by import By
 from scraping_manager.automate import Web_scraping
+from spreadsheet_manager.google_ss import SSManager
 
 class MapsScraper (Web_scraping):
-    def __init__ (self, keywords, city, max_results, get_emails, 
-                    show_browser, required_data, filters):
+    def __init__ (self, keywords, city, max_results, get_emails, show_browser,
+                    required_data, filters, google_sheet_link, google_sheet_name):
 
         # Class variables
         self.keywords = keywords
@@ -16,6 +18,9 @@ class MapsScraper (Web_scraping):
         self.get_emails = get_emails
         self.show_browser = show_browser
         self.filters = filters
+        self.google_sheet_link = google_sheet_link
+        self.google_sheet_name = google_sheet_name
+
 
         # Save list of required elements
         self.required_data = list(filter (lambda name: required_data[name], required_data))
@@ -174,7 +179,7 @@ class MapsScraper (Web_scraping):
             # save emails
             register.append (emails)
 
-    def __send_google_sheets__ (self, data:list):
+    def __send_google_sheets__ (self):
         """ Submit data to google sheet 
 
         Args:
@@ -182,7 +187,17 @@ class MapsScraper (Web_scraping):
         """
         # print status
         print (f"Sending data to google sheets...")
-        pass
+        
+        # Connect to google sheets
+        credentials_path = os.path.join(os.path.dirname(__file__), "spreadsheet_manager", "credentials.json")
+        ss = SSManager (self.google_sheet_link, credentials_path, self.google_sheet_name)
+
+        # Add header to registers
+        header = ["Name", "Reviews num", "Reviews note", "Location", "Details", "Web page", "Emails"]
+        self.registers.insert (0, header)
+        
+        # Send data cleaning sheet
+        ss.write_data (self.registers, clear_sheet=True) 
 
     def auto_run (self):
         """ workflow of the scraper """
@@ -208,6 +223,8 @@ class MapsScraper (Web_scraping):
         # Extract emails data
         self.__extract_emails__ ()
 
+        self.__send_google_sheets__ ()
+
 def main (): 
 
     # Get general credentials credentials from config
@@ -219,13 +236,13 @@ def main ():
     show_browser = credentials.get ('show_browser')
     required_data = credentials.get ('required_data')
     filters = credentials.get ('filters')
+    google_sheet_link = credentials.get ('google_sheet_link')
+    google_sheet_name = credentials.get ('google_sheet_name')
 
     # Start scraper
-    maps = MapsScraper (keywords, city, max_results, get_emails, 
-                        show_browser, required_data, filters)
+    maps = MapsScraper (keywords, city, max_results, get_emails, show_browser,
+                        required_data, filters, google_sheet_link, google_sheet_name)
     maps.auto_run ()
-
-
 
 if __name__ == "__main__":
     main()
