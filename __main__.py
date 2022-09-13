@@ -1,5 +1,6 @@
 import os
 import re
+import csv
 from tqdm import tqdm
 from time import sleep
 from config import Config
@@ -187,9 +188,11 @@ class MapsScraper (Web_scraping):
         """
         # print status
         print (f"Sending data to google sheets...")
+
+        current_folder = os.path.dirname(__file__)
         
         # Connect to google sheets
-        credentials_path = os.path.join(os.path.dirname(__file__), "spreadsheet_manager", "credentials.json")
+        credentials_path = os.path.join(current_folder, "spreadsheet_manager", "credentials.json")
         ss = SSManager (self.google_sheet_link, credentials_path, self.google_sheet_name)
 
         # Add header to registers
@@ -198,6 +201,12 @@ class MapsScraper (Web_scraping):
         
         # Send data cleaning sheet
         ss.write_data (self.registers, clear_sheet=True) 
+
+        # Save in csv
+        csv_path = os.path.join(current_folder, "data.csv")
+        with open (csv_path, "w", encoding='utf-8', newline='') as file:
+            csv_writer = csv.writer(file)
+            csv_writer.writerows (self.registers)
 
     def auto_run (self):
         """ workflow of the scraper """
