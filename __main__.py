@@ -22,12 +22,15 @@ class MapsScraper (Web_scraping):
         # Start scraper
         super().__init__ (headless= not show_browser)
 
-        # List for save the history of the registers scraped
-        self.scraped_business = []
-
         # Results row selector
         self.selector_results_wrapper = '[role="feed"]'
         self.selector_results = f'{self.selector_results_wrapper} > div'
+
+        # History of business scraped
+        self.business_names = []
+
+        # Data extracted
+        self.registers = []
 
     def __search__ (self):
         """ Open google maps search results """
@@ -39,19 +42,17 @@ class MapsScraper (Web_scraping):
         self.set_page (search_page)
         sleep (2)
 
-    def __load_results__ (self):
-        """ Scroll for load all results in page """
+    def __load_next_results__ (self):
+        """ Scroll for load the next results page
+
+        Returns:
+            bool: True, if there are not more results
+        """
         
-        while True:
-            results_last = len(self.get_elems (self.selector_results))
-            self.go_bottom (self.selector_results_wrapper)
-            sleep (5)
-            self.refresh_selenium ()
-            results_new = len(self.get_elems (self.selector_results))
-            if results_last == results_new or results_new >= self.max_results*1.2:
-                break
-            else: 
-                continue
+        # self.scroll (self.selector_results_wrapper, 0, 600)
+        self.go_bottom (self.selector_results_wrapper)
+        sleep (5)
+        self.refresh_selenium ()
 
     def __extract__ (self):
         """ Get all data in google maps, for the current results screen
@@ -60,7 +61,6 @@ class MapsScraper (Web_scraping):
             list: list nested with the google maps data
         """
 
-        registers = []
         results = self.get_elems (self.selector_results)
         for result in results:
 
@@ -108,23 +108,32 @@ class MapsScraper (Web_scraping):
                         text = text.replace ("(", "").replace(")", "")
                         row.append(text)
 
-                    # Save current business as scraped
-                    if name == "name":
-                        self.scraped_business.append (text)
-            
+                        # Validate current bussiness in history
+                        if name=="name":
+                            if text in self.business_names:
+                                # Skip business
+                                save_row = False
+                                break
+
+                            else:
+                                # Save in history
+                                self.business_names.append (text)
+                
             # save current row
             if save_row:
                 
                 # Validate user filters
                 reviews_number_text = self.filters["reviews_number"]
                 reviews_note_text = self.filters["reviews_note"]
-                reviews_number_filter = f"{row[1]} {reviews_number_text}"
-                reviews_note_filter = f"{row[2]} {reviews_note_text}"
+                reviews_number_filter = f"{row[1].replace(',', '')} {reviews_number_text}"
+                reviews_note_filter = f"{row[2].replace(',', '')} {reviews_note_text}"
 
                 if eval(reviews_number_filter) and eval(reviews_note_filter):
-                    registers.append (row)
+                   self.registers.append (row)
     
-        return registers
+            # End scraper when found the requied data
+            if len (self.registers) == self.max_results:
+                break
 
     def __send_google_sheets__ (self, data:list):
         """ Submit data to google sheet 
@@ -137,8 +146,25 @@ class MapsScraper (Web_scraping):
     def auto_run (self):
         """ workflow of the scraper """
         self.__search__ ()
-        self.__load_results__ ()
-        # data = self.__extract__ ()
+
+        # Main scraping loop 
+        while True:
+
+            last_registers = len (self.registers)
+
+            # Scrape current page
+            self.__extract__ ()
+
+            new_registers = len (self.registers)
+
+            # End scraping where no more registers found
+            if last_registers == new_registers:
+                break
+
+            # Load more results
+            self.__load_next_results__ ()
+
+        print ()
 
 def main (): 
 
