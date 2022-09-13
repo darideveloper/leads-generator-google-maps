@@ -1,6 +1,7 @@
 import os
 from time import sleep
 from config import Config
+from selenium.webdriver.common.by import By
 from scraping_manager.automate import Web_scraping
 
 class MapsScraper (Web_scraping):
@@ -14,6 +15,8 @@ class MapsScraper (Web_scraping):
 
         # Start scraper
         super().__init__ (headless= not show_browser)
+
+        self.scraped_business = []
 
     def __search__ (self):
         """ Open google maps search results """
@@ -43,7 +46,54 @@ class MapsScraper (Web_scraping):
         Returns:
             list: list nested with the google maps data
         """
-        return []
+
+        registers = []
+        selector_results = '[role="feed"] > div'
+        results = self.get_elems (selector_results)
+        for result in results:
+
+            # css selector for extract data
+            selectors = {
+                "name": ".NrDZNb .qBF1Pd.fontHeadlineSmall",
+                "reviews_number": ".W4Efsd:nth-child(3) span.UY7F9",
+                "reviews_note": ".W4Efsd:nth-child(3) span.MW4etd",
+                "location": ".W4Efsd:nth-child(4) > div.W4Efsd:nth-child(2)",
+                "details": ".W4Efsd:nth-child(4) > div.W4Efsd:nth-child(3)",
+                "web_page": ".etWJQ.jym1ob > a.lcr4fd.S9kvJb",
+            }
+
+            # Extract the data foe each selector
+            row = []
+            for name, selector in selectors.items ():
+
+                # Try to get the current element
+                try:
+                    elem = result.find_element(By.CSS_SELECTOR, selector)
+                except:
+                    break
+
+
+                if name == "web_page":
+                    # Extract web page link
+                    link = elem.get_attribute("href")
+                    row.append (link)
+                else:
+                    # Extract visible text
+                    text = elem.text
+
+                    # Clean text and save
+                    text = text.replace ("(", "").replace(")", "")
+                    row.append(text)
+
+                # Save current business as scraped
+                if name == "name":
+                    self.scraped_business.append (text)
+            
+            # save current row
+            if row:
+                registers.append (row)
+    
+        return registers
 
     def __send_google_sheets__ (self, data:list):
         """ Submit data to google sheet 
@@ -56,6 +106,7 @@ class MapsScraper (Web_scraping):
     def auto_run (self):
         """ workflow of the scraper """
         self.__search__ ()
+        data = self.__extract__ ()
 
 
 
