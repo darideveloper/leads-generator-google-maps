@@ -495,39 +495,39 @@ class Web_scraping ():
         select_elem.select_by_visible_text (text)
     
     
-    def go_bottom (self): 
+    def go_bottom (self, selector:str="body"): 
         """
         Go to the end of the page, sending keys
         """
         
-        elem = self.driver.find_element(By.CSS_SELECTOR, "body")
+        elem = self.driver.find_element(By.CSS_SELECTOR, selector)
         elem.send_keys(Keys.CONTROL + Keys.END)
     
     
-    def go_top (self): 
+    def go_top (self, selector:str="body"): 
         """
         Go to the start of the page, sending keys
         """
         
-        elem = self.driver.find_element(By.CSS_SELECTOR, "body")
+        elem = self.driver.find_element(By.CSS_SELECTOR, selector)
         elem.send_keys(Keys.CONTROL + Keys.UP)
     
     
-    def go_down (self): 
+    def go_down (self, selector:str="body"): 
         """
         advance to down, in the page, sending keys
         """
         
-        elem = self.driver.find_element(By.CSS_SELECTOR, "body")
+        elem = self.driver.find_element(By.CSS_SELECTOR, selector)
         elem.send_keys(Keys.PAGE_DOWN)
     
     
-    def go_up (self): 
+    def go_up (self, selector:str="body"): 
         """
         Return to up, in page, sending keys
         """
         
-        elem = self.driver.find_element(By.CSS_SELECTOR, "body")
+        elem = self.driver.find_element(By.CSS_SELECTOR, selector)
         elem.send_keys(Keys.PAGE_UP)
     
     

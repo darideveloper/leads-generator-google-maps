@@ -25,6 +25,10 @@ class MapsScraper (Web_scraping):
         # List for save the history of the registers scraped
         self.scraped_business = []
 
+        # Results row selector
+        self.selector_results_wrapper = '[role="feed"]'
+        self.selector_results = f'{self.selector_results_wrapper} > div'
+
     def __search__ (self):
         """ Open google maps search results """
 
@@ -35,17 +39,19 @@ class MapsScraper (Web_scraping):
         self.set_page (search_page)
         sleep (2)
 
-    def __check_next__ (self):
-        """ Validate if the current results screen have more pages
-
-        Returns:
-            bool: True, if more pages in the screen
-        """
-        return True
-
-    def __go_next__ (self):
-        """ Move to next resuslts page """
-        pass
+    def __load_results__ (self):
+        """ Scroll for load all results in page """
+        
+        while True:
+            results_last = len(self.get_elems (self.selector_results))
+            self.go_bottom (self.selector_results_wrapper)
+            sleep (5)
+            self.refresh_selenium ()
+            results_new = len(self.get_elems (self.selector_results))
+            if results_last == results_new or results_new >= self.max_results*1.2:
+                break
+            else: 
+                continue
 
     def __extract__ (self):
         """ Get all data in google maps, for the current results screen
@@ -55,8 +61,7 @@ class MapsScraper (Web_scraping):
         """
 
         registers = []
-        selector_results = '[role="feed"] > div'
-        results = self.get_elems (selector_results)
+        results = self.get_elems (self.selector_results)
         for result in results:
 
             # css selector for extract data
@@ -132,7 +137,8 @@ class MapsScraper (Web_scraping):
     def auto_run (self):
         """ workflow of the scraper """
         self.__search__ ()
-        data = self.__extract__ ()
+        self.__load_results__ ()
+        # data = self.__extract__ ()
 
 def main (): 
 
