@@ -2,8 +2,7 @@
 # Conect to google spreadsheets
 import os
 import gspread
-import time
-import sys
+from time import sleep
 from oauth2client.service_account import ServiceAccountCredentials
 
 class SSManager (): 
@@ -57,6 +56,7 @@ class SSManager ():
                     # Write data in gss
                     # print (row_index, column_index, cell)
                     self.write_cell (cell, row_index, column_index)
+                    sleep (1)
 
     def get_data (self): 
         """ Read all records of the sheet"""
