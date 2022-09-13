@@ -83,7 +83,8 @@ class MapsScraper (Web_scraping):
                 "name": ".NrDZNb .qBF1Pd.fontHeadlineSmall",
                 "reviews_number": ".W4Efsd:nth-child(3) span.UY7F9",
                 "reviews_note": ".W4Efsd:nth-child(3) span.MW4etd",
-                "location": ".W4Efsd:nth-child(4) > div.W4Efsd:nth-child(2)",
+                "category": ".W4Efsd:nth-child(4) > div.W4Efsd:nth-child(2) > span:nth-child(1)",
+                "location": ".W4Efsd:nth-child(4) > div.W4Efsd:nth-child(2) > span:nth-child(2)",
                 "details": ".W4Efsd:nth-child(4) > div.W4Efsd:nth-child(3)",
                 "web_page": ".etWJQ.jym1ob > a.lcr4fd.S9kvJb",
             }
@@ -130,7 +131,7 @@ class MapsScraper (Web_scraping):
                         text = elem.text
 
                         # Clean text and save
-                        text = text.replace ("(", "").replace(")", "")
+                        text = text.replace ("(", "").replace(")", "").replace ("· ", "")
                         row.append(text)
                 
             # save current row
@@ -181,8 +182,8 @@ class MapsScraper (Web_scraping):
             # save emails
             register.append (emails)
 
-    def __send_google_sheets__ (self):
-        """ Submit data to google sheet 
+    def __save_data__ (self):
+        """ Submit data to google sheet and save in local csv 
 
         Args:
             data (list): list nested with the google maps data
@@ -197,13 +198,14 @@ class MapsScraper (Web_scraping):
         ss = SSManager (self.google_sheet_link, credentials_path, self.google_sheet_name)
 
         # Add header to registers
-        header = ["Link", "Name", "Reviews num", "Reviews note", "Location", "Details", "Web page", "Emails"]
+        header = ["Link", "Name", "Reviews num", "Reviews note", "Category", "Location", "Details", "Web page", "Emails"]
         self.registers.insert (0, header)
         
         # Send data cleaning sheet
         ss.write_data (self.registers, clear_sheet=True) 
 
         # Save in csv
+        print (f"Saving data to csv...")
         csv_path = os.path.join(current_folder, "data.csv")
         with open (csv_path, "w", encoding='utf-8', newline='') as file:
             csv_writer = csv.writer(file)
@@ -231,9 +233,10 @@ class MapsScraper (Web_scraping):
             self.__load_next_results__ ()
 
         # Extract emails data
-        self.__extract_emails__ ()
+        if self.get_emails:
+            self.__extract_emails__ ()
 
-        self.__send_google_sheets__ ()
+        self.__save_data__ ()
 
 def main (): 
 
