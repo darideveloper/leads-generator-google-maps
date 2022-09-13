@@ -109,7 +109,15 @@ class MapsScraper (Web_scraping):
             
             # save current row
             if save_row:
-                registers.append (row)
+                
+                # Validate user filters
+                reviews_number_text = self.filters["reviews_number"]
+                reviews_note_text = self.filters["reviews_note"]
+                reviews_number_filter = f"{row[1]} {reviews_number_text}"
+                reviews_note_filter = f"{row[2]} {reviews_note_text}"
+
+                if eval(reviews_number_filter) and eval(reviews_note_filter):
+                    registers.append (row)
     
         return registers
 
@@ -125,9 +133,6 @@ class MapsScraper (Web_scraping):
         """ workflow of the scraper """
         self.__search__ ()
         data = self.__extract__ ()
-
-
-
 
 def main (): 
 
