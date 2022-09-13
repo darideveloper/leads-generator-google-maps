@@ -9,12 +9,12 @@ from scraping_manager.automate import Web_scraping
 from spreadsheet_manager.google_ss import SSManager
 
 class MapsScraper (Web_scraping):
-    def __init__ (self, keywords, city, max_results, get_emails, show_browser,
+    def __init__ (self, keywords, cities, max_results, get_emails, show_browser,
                     required_data, filters, google_sheet_link, google_sheet_name):
 
         # Class variables
         self.keywords = keywords
-        self.city = city
+        self.cities = cities
         self.max_results = max_results
         self.get_emails = get_emails
         self.show_browser = show_browser
@@ -39,14 +39,17 @@ class MapsScraper (Web_scraping):
         # Data extracted
         self.registers = []
 
-    def __search__ (self):
+        # Counter of registers extracted for each city
+        self.counter_registers = 0
+
+    def __search__ (self, city):
         """ Open google maps search results """
 
         # print status
-        print (f"Searching '{self.keywords}' in place '{self.city}'...")
+        print (f"Searching '{self.keywords}' in place '{city}'...")
 
         # Generate maps url
-        search_query = f"{self.keywords}+{self.city}".replace(" ", "+")
+        search_query = f"{self.keywords}+{city}".replace(" ", "+")
         search_page = f"https://www.google.com/maps/search/{search_query}/"
 
         self.set_page (search_page)
@@ -54,6 +57,9 @@ class MapsScraper (Web_scraping):
 
         # print status
         print ("Scraping data in google maps...")
+
+        # Reset extracted counter
+        self.counter_registers = 0
 
     def __load_next_results__ (self):
         """ Scroll for load the next results page
@@ -148,11 +154,13 @@ class MapsScraper (Web_scraping):
                     # Save current row
                     self.registers.append (row)
 
+                    self.counter_registers += 1
+
                     # print status
-                    print (f"\t{len(self.registers)} / {self.max_results}...")
+                    print (f"\t{self.counter_registers} / {self.max_results}...")
     
             # End scraper when found the requied data
-            if len (self.registers) == self.max_results:
+            if self.counter_registers == self.max_results:
                 break
 
     def __extract_emails__ (self):
@@ -213,24 +221,29 @@ class MapsScraper (Web_scraping):
 
     def auto_run (self):
         """ workflow of the scraper """
-        self.__search__ ()
 
-        # Main scraping loop 
-        while True:
+        # Loop for each city
+        for city in self.cities:
 
-            last_registers = len (self.registers)
+            # Search the current city
+            self.__search__ (city)
 
-            # Scrape current page
-            self.__extract_maps__ ()
+            # Main scraping loop 
+            while True:
 
-            new_registers = len (self.registers)
+                last_registers = len (self.registers)
 
-            # End scraping where no more registers found
-            if last_registers == new_registers:
-                break
+                # Scrape current page
+                self.__extract_maps__ ()
 
-            # Load more results
-            self.__load_next_results__ ()
+                new_registers = len (self.registers)
+
+                # End scraping where no more registers found
+                if last_registers == new_registers:
+                    break
+
+                # Load more results
+                self.__load_next_results__ ()
 
         # Extract emails data
         if self.get_emails:
@@ -243,9 +256,9 @@ def main ():
     # Get general credentials credentials from config
     credentials = Config ()
     keywords = credentials.get ('keywords')
-    city = credentials.get ('city')
+    cities = credentials.get ('cities')
     max_results = credentials.get ('max_results')
-    get_emails = credentials.get ('get_emails')
+    get_emails = credentials.get ('get_emails_from_webpage')
     show_browser = credentials.get ('show_browser')
     required_data = credentials.get ('required_data')
     filters = credentials.get ('filters')
@@ -253,7 +266,7 @@ def main ():
     google_sheet_name = credentials.get ('google_sheet_name')
 
     # Start scraper
-    maps = MapsScraper (keywords, city, max_results, get_emails, show_browser,
+    maps = MapsScraper (keywords, cities, max_results, get_emails, show_browser,
                         required_data, filters, google_sheet_link, google_sheet_name)
     maps.auto_run ()
 
