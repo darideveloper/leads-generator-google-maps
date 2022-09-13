@@ -71,33 +71,44 @@ class MapsScraper (Web_scraping):
 
             # Extract the data foe each selector
             row = []
+            save_row = True
             for name, selector in selectors.items ():
 
                 # Try to get the current element
+                elem_found = False
                 try:
                     elem = result.find_element(By.CSS_SELECTOR, selector)
                 except:
-                    break
 
-
-                if name == "web_page":
-                    # Extract web page link
-                    link = elem.get_attribute("href")
-                    row.append (link)
+                    # Go to next register if current is required
+                    if name in self.required_data:
+                        save_row = False
+                        break
+                    else:
+                        row.append ("")
                 else:
-                    # Extract visible text
-                    text = elem.text
+                    elem_found = True
 
-                    # Clean text and save
-                    text = text.replace ("(", "").replace(")", "")
-                    row.append(text)
 
-                # Save current business as scraped
-                if name == "name":
-                    self.scraped_business.append (text)
+                if elem_found:
+                    if name == "web_page":
+                        # Extract web page link
+                        link = elem.get_attribute("href")
+                        row.append (link)
+                    else:
+                        # Extract visible text
+                        text = elem.text
+
+                        # Clean text and save
+                        text = text.replace ("(", "").replace(")", "")
+                        row.append(text)
+
+                    # Save current business as scraped
+                    if name == "name":
+                        self.scraped_business.append (text)
             
             # save current row
-            if row:
+            if save_row:
                 registers.append (row)
     
         return registers
