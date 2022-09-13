@@ -35,12 +35,18 @@ class MapsScraper (Web_scraping):
     def __search__ (self):
         """ Open google maps search results """
 
+        # print status
+        print (f"Searching '{self.keywords}' in place '{self.city}'...")
+
         # Generate maps url
         search_query = f"{self.keywords}+{self.city}".replace(" ", "+")
         search_page = f"https://www.google.com/maps/search/{search_query}/"
 
         self.set_page (search_page)
-        sleep (2)
+        sleep (3)
+
+        # print status
+        print ("Scraping data in google maps...")
 
     def __load_next_results__ (self):
         """ Scroll for load the next results page
@@ -129,7 +135,12 @@ class MapsScraper (Web_scraping):
                 reviews_note_filter = f"{row[2].replace(',', '')} {reviews_note_text}"
 
                 if eval(reviews_number_filter) and eval(reviews_note_filter):
-                   self.registers.append (row)
+
+                    # Save current row
+                    self.registers.append (row)
+
+                    # print status
+                    print (f"\t{len(self.registers)} / {self.max_results}...")
     
             # End scraper when found the requied data
             if len (self.registers) == self.max_results:
@@ -141,6 +152,8 @@ class MapsScraper (Web_scraping):
         Args:
             data (list): list nested with the google maps data
         """
+        # print status
+        print (f"Sending data to google sheets...")
         pass
 
     def auto_run (self):
@@ -164,8 +177,6 @@ class MapsScraper (Web_scraping):
             # Load more results
             self.__load_next_results__ ()
 
-        print ()
-
 def main (): 
 
     # Get general credentials credentials from config
@@ -182,8 +193,6 @@ def main ():
     maps = MapsScraper (keywords, city, max_results, get_emails, 
                         show_browser, required_data, filters)
     maps.auto_run ()
-
-    print ()
 
 
 
