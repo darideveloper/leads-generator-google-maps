@@ -57,6 +57,7 @@ class Web_scraping ():
         self.__incognito = incognito
         self.__experimentals = experimentals
 
+
         # Kill chrome from CMD in donwows
         if start_killing: 
             command = 'taskkill /IM "chrome.exe" /F'
@@ -67,10 +68,11 @@ class Web_scraping ():
         
         # Get current file name
         self.current_file = os.path.basename(__file__)
-        
+
         # Set time out 
         if time_out > 0: 
-            self.driver.set_page_load_timeout(30)
+            self.driver.set_page_load_timeout(time_out)
+        
 
     def __set_browser_instance (self):
         """

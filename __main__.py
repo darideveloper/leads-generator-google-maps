@@ -10,24 +10,24 @@ from spreadsheet_manager.google_ss import SSManager
 
 class MapsScraper (Web_scraping):
     def __init__ (self, keywords, cities, max_results, get_emails, show_browser,
-                    required_data, filters, google_sheet_link, google_sheet_name):
+                    required_data, filters, google_sheet_link, google_sheet_name, wait_time):
 
         # Class variables
         self.keywords = keywords
         self.cities = cities
         self.max_results = max_results
         self.get_emails = get_emails
-        self.show_browser = show_browser
+        self.headless = not show_browser
         self.filters = filters
         self.google_sheet_link = google_sheet_link
         self.google_sheet_name = google_sheet_name
-
+        self.wait_time = wait_time
 
         # Save list of required elements
         self.required_data = list(filter (lambda name: required_data[name], required_data))
 
         # Start scraper
-        super().__init__ (headless= not show_browser)
+        super().__init__ (headless=self.headless)
 
         # Results row selector
         self.selector_results_wrapper = '[role="feed"]'
@@ -165,6 +165,12 @@ class MapsScraper (Web_scraping):
 
     def __extract_emails__ (self):
 
+        # Close current browser
+        self.kill ()
+
+        # Start scraper again
+        super().__init__ (headless=self.headless, time_out=self.wait_time)
+
         # Loop for each register
         print ("Scraping emails from web pages...")
         for register in tqdm(self.registers):
@@ -264,10 +270,11 @@ def main ():
     filters = credentials.get ('filters')
     google_sheet_link = credentials.get ('google_sheet_link')
     google_sheet_name = credentials.get ('google_sheet_name')
+    wait_time = credentials.get ('wait_time')
 
     # Start scraper
     maps = MapsScraper (keywords, cities, max_results, get_emails, show_browser,
-                        required_data, filters, google_sheet_link, google_sheet_name)
+                        required_data, filters, google_sheet_link, google_sheet_name, wait_time) 
     maps.auto_run ()
 
 if __name__ == "__main__":
