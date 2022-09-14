@@ -72,6 +72,9 @@ class Web_scraping ():
         # Set time out 
         if time_out > 0: 
             self.driver.set_page_load_timeout(time_out)
+
+        if self.__web_page:
+            self.set_page (self.__web_page)
         
 
     def __set_browser_instance (self):
@@ -163,12 +166,6 @@ class Web_scraping ():
 
         # Clean terminal
         # os.system('cls||clear')
-        
-        if self.__web_page: 
-            self.driver.get (self.__web_page)
-
-            # Wait to load page
-            # time.sleep (self.basetime*5)
             
     def __create_proxy_extesion (self): 
         """Create a proxy chrome extension"""
