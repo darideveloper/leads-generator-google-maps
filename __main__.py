@@ -1,6 +1,7 @@
 import os
 import re
 import csv
+import requests
 from tqdm import tqdm
 from time import sleep
 from config import Config
@@ -163,7 +164,30 @@ class MapsScraper (Web_scraping):
             if self.counter_registers == self.max_results:
                 break
 
+    def __get_emails_html__ (self, html_code):
+        """ Get the email from current html code
+
+        Args:
+            html_code (str): html strcuture of a page
+
+        Returns:
+            str: list of emails separated by comma
+        """
+
+        # Get emails with re
+        regex_email = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
+        emails = regex_email.findall (html_code)
+        if emails:
+            emails = ",".join (emails)
+        else:
+            emails = ""
+
+        return emails
+
     def __extract_emails__ (self):
+
+        """ Requests pages or open with selenium for the emails
+        """
 
         # Close current browser
         self.kill ()
@@ -173,28 +197,50 @@ class MapsScraper (Web_scraping):
 
         # Loop for each register
         print ("Scraping emails from web pages...")
+        pages_counter = 0
         for register in tqdm(self.registers):
+
+            # Incress counter
+            pages_counter += 1
             
-            # Get wehb page
+            # Get web page
             web_page = register[-1]
 
-            # Try to open page
+            # Http requests to the page, for make sure that exist
             try:
-                self.set_page (web_page)
-            except: 
+                res = requests.get (web_page, timeout=self.wait_time)
+            except:
                 continue
-            html_code = self.driver.page_source
-            
-            # Get emails with re
-            regex_email = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
-            emails = regex_email.findall (html_code)
-            if emails:
-                emails = ",".join (emails)
-            else:
-                emails = ""
+            status_code = res.status_code
 
-            # save emails
-            register.append (emails)
+            # Only load working poges
+            if status_code == 200:
+
+                # Get page content with requests
+                html_code = res.text
+
+                # get emails from requests
+                emails = self.__get_emails_html__ (html_code)
+                if emails:
+                    # save emails from requests
+                    register.append (emails)
+                else:
+
+                    # Get page content with selenium
+                    try:
+                        self.set_page (web_page)
+                        html_code = self.driver.page_source
+                    except: 
+                        continue
+                    
+                    # Get and same emails with selenium
+                    emails = self.__get_emails_html__ (html_code)
+                    register.append (emails)
+
+                    # Restart browser
+                    if pages_counter % 10 == 0:
+                        self.kill ()
+                        super().__init__ (headless=self.headless, time_out=self.wait_time)
 
     def __save_data__ (self):
         """ Submit data to google sheet and save in local csv 
@@ -216,7 +262,7 @@ class MapsScraper (Web_scraping):
         self.registers.insert (0, header)
         
         # Send data cleaning sheet
-        ss.write_data (self.registers, clear_sheet=True) 
+        # ss.write_data (self.registers, clear_sheet=True) 
 
         # Save in csv
         print (f"Saving data to csv...")
