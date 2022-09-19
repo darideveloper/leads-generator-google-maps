@@ -71,7 +71,8 @@ class MapsScraper (Web_scraping):
         
         # self.scroll (self.selector_results_wrapper, 0, 600)
         self.go_bottom (self.selector_results_wrapper)
-        sleep (5)
+        self.go_down (self.selector_results_wrapper)
+        sleep (7)
         self.refresh_selenium ()
 
     def __extract_maps__ (self):
@@ -171,18 +172,40 @@ class MapsScraper (Web_scraping):
             html_code (str): html strcuture of a page
 
         Returns:
-            str: list of emails separated by comma
+            list(
+                bool: true if the emails have been found in the page
+                str: list of emails separated by comma
+            )
         """
 
         # Get emails with re
         regex_email = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
         emails = regex_email.findall (html_code)
-        if emails:
-            emails = ",".join (emails)
-        else:
-            emails = ""
 
-        return emails
+
+        if emails:
+            # Filter emails with config
+            emails_filtered = []
+            emails_found = True
+            skip_emails = self.filters["skip_emails"]
+            for email in emails:
+                save_email = True
+                for skip_email in skip_emails:
+                    if skip_email in email:
+                        save_email = False
+                        break
+                
+                if save_email:
+                    emails_filtered.append (email)
+
+            
+            # Format emails
+            emails_filtered_text = ",".join (emails_filtered)
+        else:
+            emails_found = False
+            emails_filtered_text = ""
+
+        return [emails_found, emails_filtered_text]
 
     def __extract_emails__ (self):
 
@@ -199,6 +222,8 @@ class MapsScraper (Web_scraping):
         print ("Scraping emails from web pages...")
         pages_counter = 0
         for register in tqdm(self.registers):
+
+            emails = []
 
             # Incress counter
             pages_counter += 1
@@ -220,11 +245,8 @@ class MapsScraper (Web_scraping):
                 html_code = res.text
 
                 # get emails from requests
-                emails = self.__get_emails_html__ (html_code)
-                if emails:
-                    # save emails from requests
-                    register.append (emails)
-                else:
+                emails_found, emails = self.__get_emails_html__ (html_code)
+                if not emails_found:
 
                     # Get page content with selenium
                     try:
@@ -234,13 +256,16 @@ class MapsScraper (Web_scraping):
                         continue
                     
                     # Get and same emails with selenium
-                    emails = self.__get_emails_html__ (html_code)
-                    register.append (emails)
+                    emails_found, emails = self.__get_emails_html__ (html_code)
 
                     # Restart browser
                     if pages_counter % 10 == 0:
                         self.kill ()
                         super().__init__ (headless=self.headless, time_out=self.wait_time)
+
+            if emails:
+                # save emails from requests
+                register.append (emails)
 
     def __save_data__ (self):
         """ Submit data to google sheet and save in local csv 
@@ -249,7 +274,7 @@ class MapsScraper (Web_scraping):
             data (list): list nested with the google maps data
         """
         # print status
-        print (f"Sending data to google sheets...")
+        # print (f"Sending data to google sheets...")
 
         current_folder = os.path.dirname(__file__)
         
