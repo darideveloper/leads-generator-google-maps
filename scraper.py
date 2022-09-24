@@ -4,14 +4,12 @@ import csv
 import requests
 from tqdm import tqdm
 from time import sleep
-from config import Config
 from selenium.webdriver.common.by import By
 from scraping_manager.automate import Web_scraping
-from spreadsheet_manager.google_ss import SSManager
 
 class MapsScraper (Web_scraping):
     def __init__ (self, keywords, cities, max_results, get_emails, show_browser,
-                    required_data, filters, google_sheet_link, google_sheet_name, wait_time):
+                    required_data, filters, wait_time):
 
         # Class variables
         self.keywords = keywords
@@ -20,8 +18,6 @@ class MapsScraper (Web_scraping):
         self.get_emails = get_emails
         self.headless = not show_browser
         self.filters = filters
-        self.google_sheet_link = google_sheet_link
-        self.google_sheet_name = google_sheet_name
         self.wait_time = wait_time
 
         # Save list of required elements
@@ -278,16 +274,9 @@ class MapsScraper (Web_scraping):
 
         current_folder = os.path.dirname(__file__)
         
-        # Connect to google sheets
-        credentials_path = os.path.join(current_folder, "spreadsheet_manager", "credentials.json")
-        ss = SSManager (self.google_sheet_link, credentials_path, self.google_sheet_name)
-
         # Add header to registers
         header = ["Link", "Name", "Reviews num", "Reviews note", "Category", "Location", "Details", "Web page", "Emails"]
         self.registers.insert (0, header)
-        
-        # Send data cleaning sheet
-        # ss.write_data (self.registers, clear_sheet=True) 
 
         # Save in csv
         print (f"Saving data to csv...")
@@ -327,26 +316,3 @@ class MapsScraper (Web_scraping):
             self.__extract_emails__ ()
 
         self.__save_data__ ()
-
-def main (): 
-
-    # Get general credentials credentials from config
-    credentials = Config ()
-    keywords = credentials.get ('keywords')
-    cities = credentials.get ('cities')
-    max_results = credentials.get ('max_results')
-    get_emails = credentials.get ('get_emails_from_webpage')
-    show_browser = credentials.get ('show_browser')
-    required_data = credentials.get ('required_data')
-    filters = credentials.get ('filters')
-    google_sheet_link = credentials.get ('google_sheet_link')
-    google_sheet_name = credentials.get ('google_sheet_name')
-    wait_time = credentials.get ('wait_time')
-
-    # Start scraper
-    maps = MapsScraper (keywords, cities, max_results, get_emails, show_browser,
-                        required_data, filters, google_sheet_link, google_sheet_name, wait_time) 
-    maps.auto_run ()
-
-if __name__ == "__main__":
-    main()

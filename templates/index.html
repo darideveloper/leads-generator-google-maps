@@ -32,7 +32,7 @@
         </div>
 
         <!-- Search form -->
-        <form class="d-flex flex-column" action="localhost:5000" method="post">
+        <form class="d-flex flex-column" action="/" method="post">
             <div class="row">
                 <div class="col-12 col-md-6 p-3">
                     <h2>Search</h2>
@@ -72,8 +72,8 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="skip-emails">Min number of reviews</label>
-                        <input class="form-control" type="number" name="skip-emails" id="skip-emails" placeholder="darideveloper, support, wix">
-                        <p class="form-text mb-0">the emails with any of this texts will not be saved</p>
+                        <input class="form-control" type="text" name="skip-emails" id="skip-emails" placeholder="darideveloper, support, wix">
+                        <p class="form-text mb-0">the emails with any of this words will not be saved</p>
                     </div>
                 </div>
             </div>
@@ -82,36 +82,36 @@
                 <h2 class="col-12 mb-3">Save data</h2>
                 <div class="row px-3 px-sm-0">
                     <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
-                        <input class="form-check-input" type="checkbox" name="emails" id="emails" checked column="10">
-                        <label class="form-check-label" for="emails">Extract and save email from business website</label>
+                        <input class="form-check-input" type="checkbox" name="save-emails" id="save-emails" checked column="10">
+                        <label class="form-check-label" for="save-emails">Extract and save email from business website</label>
                     </div>
                     <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
-                        <input class="form-check-input" type="checkbox" name="save_name" id="save_name" checked column="3">
-                        <label class="form-check-label" for="save_name">Save business name</label>
+                        <input class="form-check-input" type="checkbox" name="save-name" id="save-name" checked column="3">
+                        <label class="form-check-label" for="save-name">Save business name</label>
                     </div>
                     <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
-                        <input class="form-check-input" type="checkbox" name="save_reviews_num" id="save_reviews_num" checked column="4">
-                        <label class="form-check-label" for="save_reviews_num">Save business reviews number</label>
+                        <input class="form-check-input" type="checkbox" name="save-reviews-num" id="save-reviews-num" checked column="4">
+                        <label class="form-check-label" for="save-reviews-num">Save business reviews number</label>
                     </div>
                     <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
-                        <input class="form-check-input" type="checkbox" name="save_reviews_note" id="save_reviews_note" checked column="5">
-                        <label class="form-check-label" for="save_reviews_note">Save reviews note</label>
+                        <input class="form-check-input" type="checkbox" name="save-reviews-note" id="save-reviews-note" checked column="5">
+                        <label class="form-check-label" for="save-reviews-note">Save reviews note</label>
                     </div>
                     <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
-                        <input class="form-check-input" type="checkbox" name="save_category" id="save_category" checked column="6">
-                        <label class="form-check-label" for="save_category">Save business category</label>
+                        <input class="form-check-input" type="checkbox" name="save-category" id="save-category" checked column="6">
+                        <label class="form-check-label" for="save-category">Save business category</label>
                     </div>
                     <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
-                        <input class="form-check-input" type="checkbox" name="save_location" id="save_location" checked column="7">
-                        <label class="form-check-label" for="save_location">Save business location</label>
+                        <input class="form-check-input" type="checkbox" name="save-location" id="save-location" checked column="7">
+                        <label class="form-check-label" for="save-location">Save business location</label>
                     </div>
                     <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
-                        <input class="form-check-input" type="checkbox" name="save_details" id="save_details" checked column="9">
-                        <label class="form-check-label" for="save_details">Save business details</label>
+                        <input class="form-check-input" type="checkbox" name="save-details" id="save-details" checked column="9">
+                        <label class="form-check-label" for="save-details">Save business details</label>
                     </div>
                     <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
-                        <input class="form-check-input" type="checkbox" name="save_web_page" id="save_web_page" checked column="9">
-                        <label class="form-check-label" for="save_web_page">Save business website</label>
+                        <input class="form-check-input" type="checkbox" name="save-web-page" id="save-web-page" checked column="9">
+                        <label class="form-check-label" for="save-web-page">Save business website</label>
                     </div>                    
                 </div>
             </div>
