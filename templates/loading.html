@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps Leads Generator</title>
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    
+    <!-- Google fornts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../static/imgs/favicon.png" type="image/x-icon">
+
+    <!-- Custom css -->
+    <link rel="stylesheet" href="../static/css/styles.css">
+
+    <!-- Redirect to local server -->
+    <meta http-equiv="refresh" content="3; url=http://localhost:5000/" />
+</head>
+<body>
+    <main class="container vw-100 vh-100 d-flex align-items-center justify-content-center">
+        <!-- Header -->
+        <div class="spinner-border m-4" role="status">
+        </div>
+        <h1>Loading...</h1>
+        
+    </main>
+
+    <footer class="d-flex justify-content-center bg-primary">
+        <small class="text-center text-light p-1">© Dari Developer 2022</small>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='js/results_table.js')}}"></script>
+    <script src="{{url_for('static', filename='js/inputs.js')}}"></script>
+</body>
+</html>
