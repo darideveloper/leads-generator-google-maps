@@ -1,5 +1,6 @@
 const inputs = document.querySelectorAll('input')
 const table_body = document.querySelector('tbody')
+const wrapper_table = document.querySelector('.wrapper-table')
 const table_data_base = [
     'www.google.com...',
     '',
@@ -112,6 +113,10 @@ function update_table() {
     keyword = table_data[0][1]
     city = table_data[0][2]
     if (keyword && city) {
+
+        // Show full table
+        wrapper_table.classList.remove ("hidden")
+
         let html = ''
 
         // Create rows
@@ -135,6 +140,9 @@ function update_table() {
             // Insert html in table body
             table_body.innerHTML = html
         }
+    } else {
+        // Hide full table 
+        wrapper_table.classList.add ("hidden")
     }
 }
 
