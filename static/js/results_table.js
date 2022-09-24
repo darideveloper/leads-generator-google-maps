@@ -15,6 +15,8 @@ const table_data_base = [
     'contact@gmail.com,sales@gmail.com',
 ]
 var table_data = []
+var min_reviews_note = 0
+var min_reviews_num = 0
 
 const start_table = () => {
     // Copy base list
@@ -22,17 +24,11 @@ const start_table = () => {
         table_data.push([...table_data_base])
     }
 
-    // Generate random reviews num
-    table_data = table_data.map((row) => {
-        row[4] = Math.floor(Math.random() * 100)
-        return row
-    })
-
-    // Generate random note
-    table_data = table_data.map((row) => {
-        row[5] = Math.floor(Math.random() * 50) / 10
-        return row
-    })
+    // Generate random reviews number
+    random_save (min=0, max=1000, column=4)
+    
+    // Generate random reviews note
+    random_save (min=0, max=5, column=5)
 
     // Reset table
     update_table()
@@ -67,20 +63,14 @@ function update_date(e) {
 
     // Update min review note
     if (e.target.id == 'min-reviews-note') {
-        table_data = table_data.map((row) => {
-            const value = parseFloat (e.target.value)
-            row[5] = Math.floor(Math.random() * (5 - value)) + value
-            return row
-        })
+        min_reviews_note = parseFloat (e.target.value)
+        random_save (min=min_reviews_note, max=5, column=5)
     }
 
     // update min review number
     if (e.target.id == 'min-reviews-num') {
-        table_data = table_data.map((row) => {
-            const value = parseFloat (e.target.value)
-            row[4] = Math.floor(Math.random() * (100 - value)) + value
-            return row
-        })
+        min_reviews_num = parseFloat (e.target.value)
+        random_save (min=min_reviews_num, max=100, column=4)
     }
 
     // activate columns
@@ -90,9 +80,20 @@ function update_date(e) {
         if (e.target.checked) {
             // add sample data ro row
             table_data = table_data.map((row) => {
-                row[column] = ""
+                row[column] = table_data_base[column]
                 return row
             })
+
+            if (e.target.id == 'save_reviews_note') {
+                random_save (min=min_reviews_note, max=5, column=5)
+            }
+        
+            // update min review number
+            if (e.target.id == 'save_reviews_num') {
+                console.log (min_reviews_num)
+                random_save (min=min_reviews_num, max=100, column=4)
+            }
+
         } else {
             // delete row column
             table_data = table_data.map((row) => {
@@ -144,6 +145,14 @@ function update_table() {
         // Hide full table 
         wrapper_table.classList.add ("hidden")
     }
+}
+
+function random_save (min, max, column) {
+    // Ggenerate random values and save in specific column of the table
+    table_data = table_data.map((row) => {
+        row[column] = Math.floor(Math.random() * (max+1 - min)) + min
+        return row
+    })
 }
 
 start_table ()

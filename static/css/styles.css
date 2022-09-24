@@ -22,4 +22,12 @@
   display: block;
 }
 
+input + .form-text {
+  opacity: 0;
+  transition-duration: 0.3s;
+}
+input:focus + .form-text {
+  opacity: 1;
+}
+
 /*# sourceMappingURL=styles.css.map */
