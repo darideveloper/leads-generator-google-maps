@@ -33,21 +33,21 @@
             <div class="row">
                 <div class="col-12 col-md-6 p-3">
                     <h2>Search</h2>
-                    <div class="mb-2 input-check">
-                        <label class="form-label" for="keywords">Keywords</label>
-                        <input class="form-control" type="text" name="keywords" id="keywords" placeholder="Health Care, Food, Accommodation" minlength="5" required>
+                    <div class="mb-3 input-check">
+                        <label class="form-label fw-bold" for="keywords">Keywords</label>
+                        <input class="form-control" type="text" name="keywords" id="keywords" placeholder="Health Care, Food, Accommodation" minlength="4" required>
                         <p class="form-text mb-0">keywords to search the business in google maps (separated by comma)</p>
                         <p class="error text-danger form-text">type at least one correct keyword</p>
                     </div>
-                    <div class="mb-2 input-check">
-                        <label class="form-label" for="cities">Cities</label>
+                    <div class="mb-3 input-check">
+                        <label class="form-label fw-bold" for="cities">Cities</label>
                         <input class="form-control" type="text" name="cities" id="cities" placeholder="New York, Chicago Illinois, Charleston South Carolina" minlength="4" required>
                         <p class="form-text mb-0">cities to search the business keywords in google maps (separated by comma)</p>
                         <p class="error text-danger form-text">type at least the full name of one correct city</p>
                     </div>
         
-                    <div class="mb-2 input-check">
-                        <label class="form-label" for="max">Max business</label>
+                    <div class="mb-3 input-check">
+                        <label class="form-label fw-bold" for="max">Max business</label>
                         <input class="form-control" type="number" name="max" id="max" placeholder="100" required min="1">
                         <p class="form-text mb-0">max business of business to scrape or get data</p>
                         <p class="error text-danger form-text">type a number greater than 0</p>
@@ -55,19 +55,19 @@
                 </div>
                 <div class="col-12 col-md-6 p-3">
                     <h2>Filters</h2>
-                    <div class="mb-2 input-check">
+                    <div class="mb-3 input-check">
                         <label class="form-label" for="min-reviews-note">Min review note</label>
                         <input class="form-control" type="number" name="min-reviews-note" id="min-reviews-note" placeholder="4.5" min="0" max="5"> 
                         <p class="form-text mb-0">the business with a lower review note than this number will be skipped</p>
                         <p class="error text-danger form-text">type a number between 0 and 5</p>
                     </div>
-                    <div class="mb-2 input-check">
+                    <div class="mb-3 input-check">
                         <label class="form-label" for="min-reviews-num">Min number of reviews</label>
                         <input class="form-control" type="number" name="min-reviews-num" id="min-reviews-num" placeholder="20" min="0" max="100">
                         <p class="form-text mb-0">the business with a lower reviews than this number will be skipped</p>
                         <p class="error text-danger form-text">type a number between 0 and 100</p>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-3">
                         <label class="form-label" for="skip-emails">Min number of reviews</label>
                         <input class="form-control" type="number" name="skip-emails" id="skip-emails" placeholder="darideveloper, support, wix">
                         <p class="form-text mb-0">the emails with any of this texts will not be saved</p>
@@ -78,35 +78,35 @@
             <div class="mb-4">
                 <h2 class="col-12 mb-3">Save data</h2>
                 <div class="row px-5 px-sm-0">
-                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                    <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
                         <input class="form-check-input" type="checkbox" name="emails" id="emails" checked column="10">
                         <label class="form-check-label" for="emails">Extract and save email from business website</label>
                     </div>
-                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                    <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
                         <input class="form-check-input" type="checkbox" name="save_name" id="save_name" checked column="3">
                         <label class="form-check-label" for="save_name">Save business name</label>
                     </div>
-                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                    <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
                         <input class="form-check-input" type="checkbox" name="save_reviews_number" id="save_reviews_number" checked column="4">
                         <label class="form-check-label" for="save_reviews_number">Save business reviews number</label>
                     </div>
-                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                    <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
                         <input class="form-check-input" type="checkbox" name="save_reviews_note" id="save_reviews_note" checked column="5">
                         <label class="form-check-label" for="save_reviews_note">Save reviews note</label>
                     </div>
-                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                    <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
                         <input class="form-check-input" type="checkbox" name="save_category" id="save_category" checked column="6">
                         <label class="form-check-label" for="save_category">Save business category</label>
                     </div>
-                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                    <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
                         <input class="form-check-input" type="checkbox" name="save_location" id="save_location" checked column="7">
                         <label class="form-check-label" for="save_location">Save business location</label>
                     </div>
-                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                    <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
                         <input class="form-check-input" type="checkbox" name="save_details" id="save_details" checked column="9">
                         <label class="form-check-label" for="save_details">Save business details</label>
                     </div>
-                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                    <div class="mb-3 form-check col-12 col-md-3 col-lg-2">
                         <input class="form-check-input" type="checkbox" name="save_web_page" id="save_web_page" checked column="9">
                         <label class="form-check-label" for="save_web_page">Save business website</label>
                     </div>                    
@@ -181,7 +181,7 @@
             </div>
 
             <div class="d-flex justify-content-center my-5">
-                <button class="btn btn-primary w-25" type="submit">Submit</button>
+                <button class="btn btn-primary w-25" type="submit">Start</button>
             </div>
         </form>
     </main>

@@ -90,13 +90,13 @@ function update_date(e) {
         if (e.target.checked) {
             // add sample data ro row
             table_data = table_data.map((row) => {
-                row[column] = table_data_base[column]
+                row[column] = ""
                 return row
             })
         } else {
             // delete row column
             table_data = table_data.map((row) => {
-                row.splice(column, 1)
+                row[column] = ""
                 return row
             })
         }

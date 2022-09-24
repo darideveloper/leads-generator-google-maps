@@ -1,4 +1,5 @@
 const inputs_check = document.querySelectorAll (".input-check input")
+const input_submit = document.querySelector('button[type="submit"]')
 
 // Validate inputs
 for (const input_check of inputs_check) {
@@ -13,5 +14,6 @@ for (const input_check of inputs_check) {
         } else {
             input_check.parentNode.classList.add ("invalid")
         }
+
     })
 }
