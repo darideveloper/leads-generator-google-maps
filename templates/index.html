@@ -4,9 +4,119 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Google Maps Leads Generator</title>
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    
+    <!-- Google fornts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Custom css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
 </head>
 <body>
-    <h1>Hello world</h1>
+    <main class="container">
+        <!-- Header -->
+        <div class="d-flex my-5 align-items-center justify-content-center">
+            <img class="mx-2" src="{{url_for('static', filename='imgs/maps-logo.png')}}" alt="google maps logo">
+            <a href="https://www.darideveloper.com/" target="_blank">
+                <img class="mx-2" src="{{url_for('static', filename='imgs/daridev-logo.png')}}" alt="dari developer logo">
+            </a>
+            <h1 class="mx-2 text-center text-lg-start">Google Maps Leads Generator</h1>
+        </div>
+
+        <!-- Search form -->
+        <form class="d-flex flex-column" action="localhost:5000" method="post">
+            <div class="row">
+                <div class="col-12 col-md-6 p-3">
+                    <h2>Search</h2>
+                    <div class="mb-2">
+                        <label class="form-label" for="keywords">Keywords</label>
+                        <input class="form-control" type="text" name="keywords" id="keywords" placeholder="Health Care, Food, Accommodation" required>
+                        <p class="form-text">keywords to search the business in google maps (separated by comma)</p>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label" for="cities">Cities</label>
+                        <input class="form-control" type="text" name="cities" id="cities" placeholder="New York, Chicago Illinois, Charleston South Carolina" required>
+                        <p class="form-text">cities to search the business keywords in google maps (separated by comma)</p>
+                    </div>
+        
+                    <div class="mb-2">
+                        <label class="form-label" for="max">Max business</label>
+                        <input class="form-control" type="number" name="max" id="max" placeholder="100" required>
+                        <p class="form-text">max business of business to scrape or get data</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 p-3">
+                    <h2>Filters</h2>
+                    <div class="mb-2">
+                        <label class="form-label" for="min-reviews-note">Min review note</label>
+                        <input class="form-control" type="text" name="min-reviews-note" id="min-reviews-note" placeholder="4.5"> 
+                        <p class="form-text">the business with a lower review note will be skipped</p>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label" for="min-reviews-num">Min number of reviews</label>
+                        <input class="form-control" type="text" name="min-reviews-num" id="min-reviews-num" placeholder="5">
+                        <p class="form-text">the business with a lower reviews number will be skipped</p>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label" for="skip-emails">Min number of reviews</label>
+                        <input class="form-control" type="text" name="skip-emails" id="skip-emails" placeholder="darideveloper, support, wix">
+                        <p class="form-text">the emails with any of this texts will not be saved</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-md-6 p-3">
+                    <h2>Save data</h2>
+                    <div class="mb-2 form-check">
+                        <input class="form-check-input" type="checkbox" name="emails" id="emails" checked>
+                        <label class="form-check-label" for="emails">Extract and save email from business website</label>
+                    </div>
+                    <div class="mb-2 form-check">
+                        <input class="form-check-input" type="checkbox" name="save_name" id="save_name" checked>
+                        <label class="form-check-label" for="save_name">Save business name</label>
+                    </div>
+                    <div class="mb-2 form-check">
+                        <input class="form-check-input" type="checkbox" name="save_reviews_numer" id="save_reviews_numer" checked>
+                        <label class="form-check-label" for="save_reviews_numer">Save business reviews numer</label>
+                    </div>
+                    <div class="mb-2 form-check">
+                        <input class="form-check-input" type="checkbox" name="save_reviews_note" id="save_reviews_note" checked>
+                        <label class="form-check-label" for="save_reviews_note">Save reviews note</label>
+                    </div>
+                    <div class="mb-2 form-check">
+                        <input class="form-check-input" type="checkbox" name="save_category" id="save_category" checked>
+                        <label class="form-check-label" for="save_category">Save business category</label>
+                    </div>
+                    <div class="mb-2 form-check">
+                        <input class="form-check-input" type="checkbox" name="save_location" id="save_location" checked>
+                        <label class="form-check-label" for="save_location">Save business location</label>
+                    </div>
+                    <div class="mb-2 form-check">
+                        <input class="form-check-input" type="checkbox" name="save_details" id="save_details" checked>
+                        <label class="form-check-label" for="save_details">Save business details</label>
+                    </div>
+                    <div class="mb-2 form-check">
+                        <input class="form-check-input" type="checkbox" name="save_web_page" id="save_web_page" checked>
+                        <label class="form-check-label" for="save_web_page">Save business website</label>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 p-3">
+                    <h2>Sample results</h2>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary w-25" type="submit">Submit</button>
+            </div>
+        </form>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </body>
 </html>
