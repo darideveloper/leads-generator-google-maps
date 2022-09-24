@@ -15,5 +15,11 @@
     display: none !important;
   }
 }
+.input-check p.error {
+  display: none;
+}
+.input-check.invalid p.error {
+  display: block;
+}
 
 /*# sourceMappingURL=styles.css.map */

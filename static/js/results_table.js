@@ -15,7 +15,7 @@ const table_data_base = [
 ]
 var table_data = []
 
-window.onload = () => {
+const start_table = () => {
     // Copy base list
     for (let i = 0; i < 9; i++) {
         table_data.push([...table_data_base])
@@ -66,7 +66,6 @@ function update_date(e) {
 
     // Update min review note
     if (e.target.id == 'min-reviews-note') {
-        console.log ("note")
         table_data = table_data.map((row) => {
             const value = parseFloat (e.target.value)
             row[5] = Math.floor(Math.random() * (5 - value)) + value
@@ -101,8 +100,6 @@ function update_date(e) {
             })
         }
     }
-
-    console.log (table_data)
 }
 
 function update_table() {
@@ -140,3 +137,5 @@ function update_table() {
         }
     }
 }
+
+start_table ()

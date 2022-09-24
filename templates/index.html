@@ -33,39 +33,44 @@
             <div class="row">
                 <div class="col-12 col-md-6 p-3">
                     <h2>Search</h2>
-                    <div class="mb-2">
+                    <div class="mb-2 input-check">
                         <label class="form-label" for="keywords">Keywords</label>
-                        <input class="form-control" type="text" name="keywords" id="keywords" placeholder="Health Care, Food, Accommodation" required>
-                        <p class="form-text">keywords to search the business in google maps (separated by comma)</p>
+                        <input class="form-control" type="text" name="keywords" id="keywords" placeholder="Health Care, Food, Accommodation" minlength="5" required>
+                        <p class="form-text mb-0">keywords to search the business in google maps (separated by comma)</p>
+                        <p class="error text-danger form-text">type at least one correct keyword</p>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-2 input-check">
                         <label class="form-label" for="cities">Cities</label>
-                        <input class="form-control" type="text" name="cities" id="cities" placeholder="New York, Chicago Illinois, Charleston South Carolina" required>
-                        <p class="form-text">cities to search the business keywords in google maps (separated by comma)</p>
+                        <input class="form-control" type="text" name="cities" id="cities" placeholder="New York, Chicago Illinois, Charleston South Carolina" minlength="4" required>
+                        <p class="form-text mb-0">cities to search the business keywords in google maps (separated by comma)</p>
+                        <p class="error text-danger form-text">type at least the full name of one correct city</p>
                     </div>
         
-                    <div class="mb-2">
+                    <div class="mb-2 input-check">
                         <label class="form-label" for="max">Max business</label>
-                        <input class="form-control" type="number" name="max" id="max" placeholder="100" required>
-                        <p class="form-text">max business of business to scrape or get data</p>
+                        <input class="form-control" type="number" name="max" id="max" placeholder="100" required min="1">
+                        <p class="form-text mb-0">max business of business to scrape or get data</p>
+                        <p class="error text-danger form-text">type a number greater than 0</p>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 p-3">
                     <h2>Filters</h2>
-                    <div class="mb-2">
+                    <div class="mb-2 input-check">
                         <label class="form-label" for="min-reviews-note">Min review note</label>
-                        <input class="form-control" type="text" name="min-reviews-note" id="min-reviews-note" placeholder="4.5"> 
-                        <p class="form-text">the business with a lower review note will be skipped</p>
+                        <input class="form-control" type="number" name="min-reviews-note" id="min-reviews-note" placeholder="4.5" min="0" max="5"> 
+                        <p class="form-text mb-0">the business with a lower review note than this number will be skipped</p>
+                        <p class="error text-danger form-text">type a number between 0 and 5</p>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-2 input-check">
                         <label class="form-label" for="min-reviews-num">Min number of reviews</label>
-                        <input class="form-control" type="text" name="min-reviews-num" id="min-reviews-num" placeholder="20">
-                        <p class="form-text">the business with a lower reviews number will be skipped</p>
+                        <input class="form-control" type="number" name="min-reviews-num" id="min-reviews-num" placeholder="20" min="0" max="100">
+                        <p class="form-text mb-0">the business with a lower reviews than this number will be skipped</p>
+                        <p class="error text-danger form-text">type a number between 0 and 100</p>
                     </div>
                     <div class="mb-2">
                         <label class="form-label" for="skip-emails">Min number of reviews</label>
-                        <input class="form-control" type="text" name="skip-emails" id="skip-emails" placeholder="darideveloper, support, wix">
-                        <p class="form-text">the emails with any of this texts will not be saved</p>
+                        <input class="form-control" type="number" name="skip-emails" id="skip-emails" placeholder="darideveloper, support, wix">
+                        <p class="form-text mb-0">the emails with any of this texts will not be saved</p>
                     </div>
                 </div>
             </div>
@@ -82,8 +87,8 @@
                         <label class="form-check-label" for="save_name">Save business name</label>
                     </div>
                     <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
-                        <input class="form-check-input" type="checkbox" name="save_reviews_numer" id="save_reviews_numer" checked column="4">
-                        <label class="form-check-label" for="save_reviews_numer">Save business reviews numer</label>
+                        <input class="form-check-input" type="checkbox" name="save_reviews_number" id="save_reviews_number" checked column="4">
+                        <label class="form-check-label" for="save_reviews_number">Save business reviews number</label>
                     </div>
                     <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
                         <input class="form-check-input" type="checkbox" name="save_reviews_note" id="save_reviews_note" checked column="5">
@@ -182,6 +187,7 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-    <script src="{{url_for('static', filename='js/form.js')}}"></script>
+    <script src="{{url_for('static', filename='js/results_table.js')}}"></script>
+    <script src="{{url_for('static', filename='js/inputs.js')}}"></script>
 </body>
 </html>
