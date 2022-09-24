@@ -9,7 +9,7 @@ from scraping_manager.automate import Web_scraping
 
 class MapsScraper (Web_scraping):
     def __init__ (self, keywords, cities, max_results, get_emails, show_browser,
-                    required_data, filters, wait_time):
+                    save_data, filters, wait_time):
 
         # Class variables
         self.keywords = keywords
@@ -21,7 +21,7 @@ class MapsScraper (Web_scraping):
         self.wait_time = wait_time
 
         # Save list of required elements
-        self.required_data = list(filter (lambda name: required_data[name], required_data))
+        self.save_data = list(filter (lambda name: save_data[name], save_data))
 
         # Start scraper
         super().__init__ (headless=self.headless)
@@ -92,24 +92,30 @@ class MapsScraper (Web_scraping):
                 "details": ".W4Efsd:nth-child(4) > div.W4Efsd:nth-child(3)",
                 "web_page": ".etWJQ.jym1ob > a.lcr4fd.S9kvJb",
             }
+            
+            # clean unnecesary selectors
+            for name, selector in selectors:
+                if name in self.save_data:
+                    selectors[name] = selector
+                else:
+                    selectors[name] = None
+                    
 
             # Extract the data foe each selector
             row = []
             save_row = True
             for name, selector in selectors.items ():
+                
+                # Skip empty selectors
+                if not selector:
+                    row.append ("")                    
 
                 # Try to get the current element
                 elem_found = False
                 try:
                     elem = result.find_element(By.CSS_SELECTOR, selector)
                 except:
-
-                    # Go to next register if current is required
-                    if name in self.required_data:
-                        save_row = False
-                        break
-                    else:
-                        row.append ("")
+                    row.append ("")
                 else:
                     elem_found = True
 
@@ -275,7 +281,7 @@ class MapsScraper (Web_scraping):
         current_folder = os.path.dirname(__file__)
         
         # Add header to registers
-        header = ["Link", "Name", "Reviews num", "Reviews note", "Category", "Location", "Details", "Web page", "Emails"]
+        header = ["Link", "keywords", "Cities", "Name", "Reviews num", "Reviews note", "Category", "Location", "Details", "Web page", "Emails"]
         self.registers.insert (0, header)
 
         # Save in csv
