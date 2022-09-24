@@ -6,4 +6,14 @@
   display: none !important;
 }
 
+.wrapper-table {
+  overflow-y: visible !important;
+}
+
+@media screen and (max-width: 992px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
 /*# sourceMappingURL=styles.css.map */

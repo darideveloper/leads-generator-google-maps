@@ -59,7 +59,7 @@
                     </div>
                     <div class="mb-2">
                         <label class="form-label" for="min-reviews-num">Min number of reviews</label>
-                        <input class="form-control" type="text" name="min-reviews-num" id="min-reviews-num" placeholder="5">
+                        <input class="form-control" type="text" name="min-reviews-num" id="min-reviews-num" placeholder="20">
                         <p class="form-text">the business with a lower reviews number will be skipped</p>
                     </div>
                     <div class="mb-2">
@@ -70,53 +70,118 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-12 col-md-6 p-3">
-                    <h2>Save data</h2>
-                    <div class="mb-2 form-check">
-                        <input class="form-check-input" type="checkbox" name="emails" id="emails" checked>
+            <div class="mb-4">
+                <h2 class="col-12 mb-3">Save data</h2>
+                <div class="row px-5 px-sm-0">
+                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                        <input class="form-check-input" type="checkbox" name="emails" id="emails" checked column="10">
                         <label class="form-check-label" for="emails">Extract and save email from business website</label>
                     </div>
-                    <div class="mb-2 form-check">
-                        <input class="form-check-input" type="checkbox" name="save_name" id="save_name" checked>
+                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                        <input class="form-check-input" type="checkbox" name="save_name" id="save_name" checked column="3">
                         <label class="form-check-label" for="save_name">Save business name</label>
                     </div>
-                    <div class="mb-2 form-check">
-                        <input class="form-check-input" type="checkbox" name="save_reviews_numer" id="save_reviews_numer" checked>
+                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                        <input class="form-check-input" type="checkbox" name="save_reviews_numer" id="save_reviews_numer" checked column="4">
                         <label class="form-check-label" for="save_reviews_numer">Save business reviews numer</label>
                     </div>
-                    <div class="mb-2 form-check">
-                        <input class="form-check-input" type="checkbox" name="save_reviews_note" id="save_reviews_note" checked>
+                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                        <input class="form-check-input" type="checkbox" name="save_reviews_note" id="save_reviews_note" checked column="5">
                         <label class="form-check-label" for="save_reviews_note">Save reviews note</label>
                     </div>
-                    <div class="mb-2 form-check">
-                        <input class="form-check-input" type="checkbox" name="save_category" id="save_category" checked>
+                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                        <input class="form-check-input" type="checkbox" name="save_category" id="save_category" checked column="6">
                         <label class="form-check-label" for="save_category">Save business category</label>
                     </div>
-                    <div class="mb-2 form-check">
-                        <input class="form-check-input" type="checkbox" name="save_location" id="save_location" checked>
+                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                        <input class="form-check-input" type="checkbox" name="save_location" id="save_location" checked column="7">
                         <label class="form-check-label" for="save_location">Save business location</label>
                     </div>
-                    <div class="mb-2 form-check">
-                        <input class="form-check-input" type="checkbox" name="save_details" id="save_details" checked>
+                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                        <input class="form-check-input" type="checkbox" name="save_details" id="save_details" checked column="9">
                         <label class="form-check-label" for="save_details">Save business details</label>
                     </div>
-                    <div class="mb-2 form-check">
-                        <input class="form-check-input" type="checkbox" name="save_web_page" id="save_web_page" checked>
+                    <div class="mb-2 form-check col-12 col-md-3 col-lg-2">
+                        <input class="form-check-input" type="checkbox" name="save_web_page" id="save_web_page" checked column="9">
                         <label class="form-check-label" for="save_web_page">Save business website</label>
-                    </div>
+                    </div>                    
                 </div>
-                <div class="col-12 col-md-6 p-3">
-                    <h2>Sample results</h2>
+            </div>
+            <div>
+                <h2 class="mb-3">Sample results</h2>
+                <p>Sample data after web scraping (fill the search section for display some rows)</p>
+                <div class="wrapper-table overflow-scroll">
+                    <table class="table w-100 table-hover table-responsive-sm">
+                        <thead>
+                            <th scope="col">
+                                <span class="m-1">
+                                    Link
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="m-1">
+                                    Keywords
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="m-1">
+                                    Cities
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="m-1">
+                                    Name
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="m-1">
+                                    R.number
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="m-1">
+                                    R.note
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="m-1">
+                                    Category
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="m-1">
+                                    Location
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="m-1">
+                                    Details
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="m-1">
+                                    Website
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="m-1">
+                                    Emails
+                                </span>
+                            </th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center my-5">
                 <button class="btn btn-primary w-25" type="submit">Submit</button>
             </div>
         </form>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='js/form.js')}}"></script>
 </body>
 </html>
