@@ -36,7 +36,7 @@ def start_scraper ():
     }
     
     # headless
-    show_browser = False
+    show_browser = True
     
     # Organize save data
     save_date = {
@@ -50,7 +50,8 @@ def start_scraper ():
         "web_page": save_web_page
     }
     
-    scraper_thread = Thread(target=MapsScraper, args=(
+    # Instance of maps scraper
+    scraper = MapsScraper (
         search_keywords, 
         search_cities, 
         search_max, 
@@ -59,8 +60,12 @@ def start_scraper ():
         save_date, 
         filters, 
         wait_time
-    ))
+    )
     
+    # Auto run scraper thread
+    scraper_thread = Thread(target=scraper.auto_run)
+    scraper_thread.start ()
+        
     return render_template ("index.html")
 
 if __name__ == "__main__":
