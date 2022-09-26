@@ -1,18 +1,30 @@
+import os
 import secrets
 from threading import Thread
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 from scraper import MapsScraper
 from globals import data, status
+from save import SaveData
 
 app = Flask(__name__)
 app.secret_key  = secrets.token_hex()
 
 @app.get ("/")
 def home ():
+    """Home page
+
+    Returns:
+        html: html tenplate for home page (index.html)
+    """
     return render_template ("index.html")
 
 @app.post ("/")
 def start_scraper ():
+    """Get form data, start scraper and return results page 
+
+    Returns:
+        html: html tenplate for results page (results.html)
+    """
     
     # Get from data
     search_keywords = request.form["keywords"].replace (",", " ")
@@ -78,19 +90,54 @@ def start_scraper ():
     # Auto run scraper thread
     scraper_thread = Thread(target=scraper.auto_run)
     scraper_thread.start ()
-    
-    from time import sleep
-    sleep (20)
-    print (data, status)
         
     return render_template ("index.html")
 
 @app.get ("/data/")
 def get_data ():
+    """Get global web scraping data
+
+    Returns:
+        json: data already scraped
+    """
     return {
         "data": data,
-        "status": status
     }
+    
+@app.get ("/status/")
+def get_status ():
+    """Return global web scraping status
+
+    Returns:
+        json: status of the web scraping
+    """
+    return {
+        "status": status,
+    }
+    
+@app.get ("/save/<file_type>")
+def get_file (file_type):
+    """ Return scraping data in specific file type, and return it
+
+    Args:
+        file_type (str): "csv", "xlsx" or "json"
+
+    Returns:
+        file: binary file with data saved
+    """
+    
+    # instance of saver
+    savedata = SaveData ()
+    
+    # Downloads folder
+    downloads_folder = os.path.join (os.path.dirname (__file__), "files")
+    
+    if file_type == "csv":
+        savedata.csv ()
+        
+    # Return file
+    return send_from_directory(downloads_folder, f"data.{file_type}", as_attachment=True)
+        
 
 if __name__ == "__main__":
     # Run server with debug

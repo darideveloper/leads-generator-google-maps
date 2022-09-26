@@ -288,29 +288,6 @@ class MapsScraper (Web_scraping):
                 register.append (emails)
                 data[register_id].append (emails)
 
-    def __save_data__ (self):
-        """ Submit data to google sheet and save in local csv 
-
-        Args:
-            data (list): list nested with the google maps data
-        """
-        # print status
-        # print (f"Sending data to google sheets...")
-
-        current_folder = os.path.dirname(__file__)
-        
-        # Add header to registers
-        header = ["Link", "keywords", "Cities", "Name", "Reviews num", "Reviews note", "Category", "Location", "Details", "Web page", "Emails"]
-        self.registers.insert (0, header)
-        data.insert (0, header)
-
-        # Save in csv
-        print (f"Saving data to csv...")
-        csv_path = os.path.join(current_folder, "data.csv")
-        with open (csv_path, "w", encoding='utf-8', newline='') as file:
-            csv_writer = csv.writer(file)
-            csv_writer.writerows (self.registers)
-
     def auto_run (self):
         """ workflow of the scraper """
 
@@ -340,5 +317,3 @@ class MapsScraper (Web_scraping):
         # Extract emails data
         if self.get_emails:
             self.__extract_emails__ ()
-
-        self.__save_data__ ()
