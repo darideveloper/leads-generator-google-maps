@@ -1,9 +1,11 @@
-from multiprocessing.connection import wait
+import secrets
 from threading import Thread
 from flask import Flask, render_template, request
 from scraper import MapsScraper
+from globals import data, status
 
 app = Flask(__name__)
+app.secret_key  = secrets.token_hex()
 
 @app.get ("/")
 def home ():
@@ -11,13 +13,14 @@ def home ():
 
 @app.post ("/")
 def start_scraper ():
+    
     # Get from data
     search_keywords = request.form["keywords"].split(",")
     search_cities = request.form["cities"].split(",")
     search_max = int(request.form["max"])
-    filter_min_reviews_note = request.form.get("min-reviews-note", 0)
-    filter_min_reviews_num = request.form.get("min-reviews-num", 0)
-    filter_skip_emails = request.form["skip-emails"]
+    filter_min_reviews_note = request.form["min-reviews-note"]
+    filter_min_reviews_num = request.form["min-reviews-num"]
+    filter_skip_emails = request.form["skip-emails"].split(",")
     save_emails = True if "save-emails" in request.form else False
     save_name = True if "save-name" in request.form else False
     save_reviews_num = True if "save-reviews-num" in request.form else False
@@ -27,6 +30,16 @@ def start_scraper ():
     save_details = True if "save-details" in request.form else False
     save_web_page = True if "save-web-page" in request.form else False
     wait_time = 5
+    
+    # Fix filters
+    if not filter_min_reviews_note:
+        filter_min_reviews_note = "0" 
+    
+    if not filter_min_reviews_num:
+        filter_min_reviews_num = "0"
+        
+    filter_min_reviews_note = f">= {filter_min_reviews_note}"
+    filter_min_reviews_num = f">= {filter_min_reviews_num}"
     
     # Organize filters
     filters = {
@@ -65,8 +78,19 @@ def start_scraper ():
     # Auto run scraper thread
     scraper_thread = Thread(target=scraper.auto_run)
     scraper_thread.start ()
+    
+    from time import sleep
+    sleep (20)
+    print (data, status)
         
     return render_template ("index.html")
+
+@app.get ("/data/")
+def get_data ():
+    return {
+        "data": data,
+        "status": status
+    }
 
 if __name__ == "__main__":
     # Run server with debug

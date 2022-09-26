@@ -6,6 +6,7 @@ from tqdm import tqdm
 from time import sleep
 from selenium.webdriver.common.by import By
 from scraping_manager.automate import Web_scraping
+from globals import data, status
 
 class MapsScraper (Web_scraping):
     def __init__ (self, keywords, cities, max_results, get_emails, show_browser,
@@ -19,7 +20,7 @@ class MapsScraper (Web_scraping):
         self.headless = not show_browser
         self.filters = filters
         self.wait_time = wait_time
-
+        
         # Save list of required elements
         self.save_data = list(filter (lambda name: save_data[name], save_data))
 
@@ -94,7 +95,7 @@ class MapsScraper (Web_scraping):
             }
             
             # clean unnecesary selectors
-            for name, selector in selectors:
+            for name, selector in selectors.items():
                 if name in self.save_data:
                     selectors[name] = selector
                 else:
@@ -143,20 +144,36 @@ class MapsScraper (Web_scraping):
                         # Clean text and save
                         text = text.replace ("(", "").replace(")", "").replace ("· ", "")
                         row.append(text)
+                        
+            # validate if there is data to save
+            if save_row:
+                data_to_save = list(filter (lambda elem: elem, row))
+                if not data_to_save:
+                    save_row = False
                 
             # save current row
             if save_row:
                 
-                # Validate user filters
+                # Get variables to apply filters
                 reviews_number_text = self.filters["reviews_number"]
                 reviews_note_text = self.filters["reviews_note"]
-                reviews_number_filter = f"{row[2].replace(',', '')} {reviews_number_text}"
-                reviews_note_filter = f"{row[3].replace(',', '')} {reviews_note_text}"
+                reviews_number = row[2].replace(',', '')
+                reviews_note = row[3].replace(',', '')
+                if not reviews_number:
+                    reviews_number = 0
+                if not reviews_note:
+                    reviews_note = 0
+                    
+                # Generate validation                 
+                reviews_number_filter = f"{reviews_number} {reviews_number_text}"
+                reviews_note_filter = f"{reviews_note} {reviews_note_text}"
 
+                # Apply filters
                 if eval(reviews_number_filter) and eval(reviews_note_filter):
 
                     # Save current row
                     self.registers.append (row)
+                    data.append (row)
 
                     self.counter_registers += 1
 
@@ -224,7 +241,8 @@ class MapsScraper (Web_scraping):
         print ("Scraping emails from web pages...")
         pages_counter = 0
         for register in tqdm(self.registers):
-
+            
+            register_id = self.registers.index (register)
             emails = []
 
             # Incress counter
@@ -268,6 +286,7 @@ class MapsScraper (Web_scraping):
             if emails:
                 # save emails from requests
                 register.append (emails)
+                data[register_id].append (emails)
 
     def __save_data__ (self):
         """ Submit data to google sheet and save in local csv 
@@ -283,6 +302,7 @@ class MapsScraper (Web_scraping):
         # Add header to registers
         header = ["Link", "keywords", "Cities", "Name", "Reviews num", "Reviews note", "Category", "Location", "Details", "Web page", "Emails"]
         self.registers.insert (0, header)
+        data.insert (0, header)
 
         # Save in csv
         print (f"Saving data to csv...")
