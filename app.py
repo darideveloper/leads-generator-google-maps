@@ -15,7 +15,7 @@ def home ():
 def start_scraper ():
     
     # Get from data
-    search_keywords = request.form["keywords"].split(",")
+    search_keywords = request.form["keywords"].replace (",", " ")
     search_cities = request.form["cities"].split(",")
     search_max = int(request.form["max"])
     filter_min_reviews_note = request.form["min-reviews-note"]
