@@ -44,7 +44,7 @@ class MapsScraper (Web_scraping):
         """ Open google maps search results """
 
         # print status
-        print (f"Searching '{self.keywords}' in place '{city}'...")
+        status[0] = f"Searching '{self.keywords}' in place '{city}'..."
 
         # Generate maps url
         search_query = f"{self.keywords}+{city}".replace(" ", "+")
@@ -54,7 +54,7 @@ class MapsScraper (Web_scraping):
         sleep (3)
 
         # print status
-        print ("Scraping data in google maps...")
+        status[0] = "Scraping data in google maps..."
 
         # Reset extracted counter
         self.counter_registers = 0
@@ -178,7 +178,7 @@ class MapsScraper (Web_scraping):
                     self.counter_registers += 1
 
                     # print status
-                    print (f"\t{self.counter_registers} / {self.max_results}...")
+                    status[0] = f"Business: {self.counter_registers} / {self.max_results}..."
     
             # End scraper when found the requied data
             if self.counter_registers == self.max_results:
@@ -238,9 +238,9 @@ class MapsScraper (Web_scraping):
         super().__init__ (headless=self.headless, time_out=self.wait_time)
 
         # Loop for each register
-        print ("Scraping emails from web pages...")
+        status[0] = "Scraping emails from web pages..."
         pages_counter = 0
-        for register in tqdm(self.registers):
+        for register in self.registers:
             
             register_id = self.registers.index (register)
             emails = []
@@ -317,3 +317,5 @@ class MapsScraper (Web_scraping):
         # Extract emails data
         if self.get_emails:
             self.__extract_emails__ ()
+            
+        status[0] = "done"

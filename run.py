@@ -11,7 +11,7 @@ def open_page ():
     
 
 if __name__ == "__main__":
-    # Create threads
+    # Create threadsg
     thread_open_page = Thread (target=open_page)
     
     # Run threads

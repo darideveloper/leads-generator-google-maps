@@ -112,7 +112,7 @@ def get_status ():
         json: status of the web scraping
     """
     return {
-        "status": status,
+        "status": status[0],
     }
     
 @app.get ("/save/<file_type>")
