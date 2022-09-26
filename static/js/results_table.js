@@ -35,7 +35,7 @@ const start_table = () => {
 
     // Add event listener to the inputs
     for (const input of inputs) {
-        input.addEventListener('change', (e) => {
+        input.addEventListener('keyup', (e) => {
             update_date(e)
             update_table()
         })
