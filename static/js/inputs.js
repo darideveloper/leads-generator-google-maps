@@ -1,3 +1,5 @@
+// Inputs validation
+
 const inputs_check = document.querySelectorAll (".input-check input")
 const input_submit = document.querySelector('button[type="submit"]')
 

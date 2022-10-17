@@ -1,3 +1,5 @@
+// Show and update sample results table
+
 const inputs = document.querySelectorAll('input')
 const table_body = document.querySelector('tbody')
 const wrapper_table = document.querySelector('.wrapper-table')

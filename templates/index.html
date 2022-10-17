@@ -173,7 +173,10 @@
 
 {% block scripts %}
     {{  super () }}
-    <script src="{{url_for('static', filename='js/results_table.js')}}"></script>
+    <script>
+        const is_loading = "{{ is_loading }}" == "True"
+    </script>
+    <script src="{{url_for('static', filename='js/sample_results_table.js')}}"></script>
     <script src="{{url_for('static', filename='js/inputs.js')}}"></script>
     <script src="{{url_for('static', filename='js/modal_loading.js')}}"></script>
 {% endblock %}

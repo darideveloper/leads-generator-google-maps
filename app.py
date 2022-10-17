@@ -16,7 +16,7 @@ def home ():
     Returns:
         html: html tenplate for home page (index.html)
     """
-    return render_template ("index.html")
+    return render_template ("index.html", is_loading=False)
 
 @app.post ("/")
 def start_scraper ():
@@ -91,7 +91,7 @@ def start_scraper ():
     scraper_thread = Thread(target=scraper.auto_run)
     scraper_thread.start ()
         
-    return render_template ("index.html")
+    return render_template ("index.html", is_loading=True)
 
 @app.get ("/data/")
 def get_data ():

@@ -5,7 +5,7 @@ from app import app
 
 def open_page ():
     current_folder = os.path.dirname(__file__)
-    loading_path = os.path.join(current_folder, 'templates', 'loading.html')
+    loading_path = os.path.join(current_folder, 'templates', 'redirect.html')
     webbrowser.open (loading_path)
     print ("openning page")
     
