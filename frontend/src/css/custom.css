@@ -11784,5 +11784,36 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+:root {
+  --bs-body-font-family: "Raleway", sans-serif;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.wrapper-table {
+  overflow-y: visible !important;
+}
+
+@media screen and (max-width: 992px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+.input-check p.error {
+  display: none;
+}
+.input-check.invalid p.error {
+  display: block;
+}
+
+input + .form-text {
+  opacity: 0;
+  transition-duration: 0.3s;
+}
+input:focus + .form-text {
+  opacity: 1;
+}
 
 /*# sourceMappingURL=custom.css.map */
