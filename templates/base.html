@@ -40,10 +40,15 @@
         {% endblock %}
     </main>
 
-    {% block extra %}
-        
+    {% block loading %}
+        <div class="hidden modal-loading vw-100 vh-100 d-flex align-items-center justify-content-center position-absolute top-0 start-0 bg-white">
+            <!-- Spinner -->
+            <div class="spinner-border m-4" role="status">
+            </div>
+            <h1>Loading...</h1>
+            <p></p>
+        </div>        
     {% endblock %}
-
     
     <footer class="d-flex justify-content-center bg-primary">
         <small class="text-center text-light p-1">© Dari Developer 2022</small>
