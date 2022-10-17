@@ -9,6 +9,12 @@ function show_spinner () {
     main.classList.add ("hidden")
 }
 
+function hide_spinner () {
+    modal.classList.add ("hidden")
+    main.classList.remove ("hidden")
+
+}
+
 // Show spinner on submit form
 form.addEventListener('submit', () => {
     show_spinner ()

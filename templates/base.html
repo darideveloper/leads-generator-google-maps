@@ -41,11 +41,13 @@
     </main>
 
     {% block loading %}
-        <div class="hidden modal-loading vw-100 vh-100 d-flex align-items-center justify-content-center position-absolute top-0 start-0 bg-white">
+        <div class="flex-column hidden modal-loading vw-100 vh-100 d-flex align-items-center justify-content-center position-absolute top-0 start-0 bg-white">
             <!-- Spinner -->
-            <div class="spinner-border m-4" role="status">
+            <div class="spinner-wrapper d-flex align-items-center">
+                <div class="spinner-border m-4" role="status">
+                </div>
+                <h1>Loading...</h1>
             </div>
-            <h1>Loading...</h1>
             <p></p>
         </div>        
     {% endblock %}
