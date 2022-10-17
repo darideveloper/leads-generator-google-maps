@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+    <!-- Google fornts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
+    <!-- Custom css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+
+    <!-- title with jinja -->
+    <title>
+        {% block title %}{% endblock %} | Google Maps Lead generator
+    </title>
+</head>
+<body>
+    <main class="container">
+        <!-- Header -->
+        <div class="d-flex my-5 align-items-center justify-content-center">
+            <img class="mx-2" src="{{url_for('static', filename='imgs/maps-logo.png')}}" alt="google maps logo">
+            <a href="https://www.darideveloper.com/" target="_blank">
+                <img class="mx-2" src="{{url_for('static', filename='imgs/daridev-logo.png')}}" alt="dari developer logo">
+            </a>
+            <h1 class="mx-2 text-center text-lg-start">Google Maps Leads Generator</h1>
+        </div>
+
+        {% block content %}
+        
+        {% endblock %}
+    </main>
+
+    {% block loading %}
+        <div class="flex-column hidden modal-loading vw-100 vh-100 d-flex align-items-center justify-content-center position-absolute top-0 start-0 bg-white">
+            <!-- Spinner -->
+            <div class="spinner-wrapper d-flex align-items-center">
+                <div class="spinner-border m-4" role="status">
+                </div>
+                <h1>Loading...</h1>
+            </div>
+            <p></p>
+        </div>        
+    {% endblock %}
+    
+    <footer class="d-flex justify-content-center bg-primary">
+        <small class="text-center text-light p-1">© Dari Developer 2022</small>
+    </footer>
+
+    {% block scripts %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    {% endblock %}
+</body>
+</html>
