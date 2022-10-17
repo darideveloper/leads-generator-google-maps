@@ -2,12 +2,14 @@ import os
 import secrets
 from threading import Thread
 from flask import Flask, render_template, request, send_from_directory
+from flask_cors import CORS
 from scraper import MapsScraper
 from globals import data, status
 from save import SaveData
 
 app = Flask(__name__)
 app.secret_key  = secrets.token_hex()
+CORS(app)
 
 @app.get ("/")
 def home ():
