@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Header from './components/header'
 import Footer from './components/footer'
-import Search from './components/Search'
+import Search from './components/search'
 
 function App() {
     const [count, setCount] = useState(0)
