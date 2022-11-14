@@ -41,23 +41,6 @@ def start_scraper ():
     save_web_page = True if "save-website" in request.form else False
     wait_time = 5
     
-    print (f"Keywords: {search_keywords}")
-    print (f"Cities: {search_cities}")
-    print (f"Max: {search_max}")
-    print (f"Min reviews note: {filter_min_reviews_note}")
-    print (f"Min reviews num: {filter_min_reviews_num}")
-    print (f"Skip emails: {filter_skip_emails}")
-    print (f"Save emails: {save_emails}")
-    print (f"Save name: {save_name}")
-    print (f"Save reviews num: {save_reviews_num}")
-    print (f"Save reviews note: {save_reviews_note}")
-    print (f"Save category: {save_category}")
-    print (f"Save location: {save_location}")
-    print (f"Save details: {save_details}")
-    print (f"Save web page: {save_web_page}")
-    
-    return {"hello": "world"}
-    
     # Fix filters
     if not filter_min_reviews_note:
         filter_min_reviews_note = "0" 

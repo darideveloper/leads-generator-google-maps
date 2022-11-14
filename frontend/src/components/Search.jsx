@@ -3,7 +3,6 @@ import Checkbox from "./checkbox"
 import { useContext } from "react"
 import { SearchContext } from "../context/search"
 import { ScreenContext } from "../context/screen"
-import PropTypes from "prop-types"
 
 export default function Search () {
 

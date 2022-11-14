@@ -15,7 +15,7 @@ function App() {
     // const [screen, setScreen] = useState('loading')
     
     // Validate local client when load
-    const { screen, validate_client } = useContext(ScreenContext)
+    const { screen } = useContext(ScreenContext)
 
     let render_screen
     if (screen == 'search') {
