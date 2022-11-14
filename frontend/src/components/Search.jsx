@@ -2,31 +2,36 @@ import Input from "./input"
 import Checkbox from "./checkbox"
 import { useContext } from "react"
 import { SearchContext } from "../context/search"
+import { ScreenContext } from "../context/screen"
 import PropTypes from "prop-types"
 
-export default function Search ({setScreen}) {
+export default function Search () {
 
-    function submit_form (e) {
+    function submit_form (e, validate_client, setScreen, api_url) {
         e.preventDefault()
+
+        // Show loading screen
+        setScreen ("loading")
     
-        // Submit data to backend
+        // Validate client before submit data
+        validate_client ()
+
+        // Submit form to backend
         const data = new URLSearchParams()
         for (const pair of new FormData(e.target)) {
             data.append(pair[0], pair[1])
         }
 
-        fetch('http://localhost:5000', {
+        fetch(`${api_url}`, {
             method: 'POST',
             body: data,
         }).then ((response) => {
             console.log (response)
-        }).catch ((error) => {
-            console.log (error)
         })
     
-        // Change screen to loading
-        // setScreen('loading')
     }
+
+    const { validate_client, setScreen, api_url } = useContext(ScreenContext)
 
     // Form variabvles and setters 
     const { 
@@ -64,7 +69,7 @@ export default function Search ({setScreen}) {
      } = useContext(SearchContext)
 
     return (
-        <form className="d-flex flex-column" action="localhost:5000" method="post" onSubmit={submit_form}>
+        <form className="d-flex flex-column" action="localhost:5000" method="post" onSubmit={(e) => submit_form(e, validate_client, setScreen, api_url)}>
         <div className="row">
             <div className="col-12 col-md-6 p-3">
                 <h2>Search</h2>
@@ -130,7 +135,7 @@ export default function Search ({setScreen}) {
                     value={reviews_number}
                     label="Min number of reviews" 
                     input_type="number" 
-                    name="min-reviews-note" 
+                    name="min-reviews-num" 
                     placeholder="20" 
                     help_text="the business with a lower reviews than this number will be skipped"
                     error_text="type a number between 0 and 100"
@@ -168,7 +173,7 @@ export default function Search ({setScreen}) {
                 </Checkbox>
 
                 <Checkbox
-                    name="save-reviews"
+                    name="save-reviews-num"
                     label="Save business reviews number"
                     value={save_reviews}
                     onChange={(e) => {setSaveReviews(e.target.checked)}}    
@@ -176,7 +181,7 @@ export default function Search ({setScreen}) {
                 </Checkbox>
 
                 <Checkbox
-                    name="save-note"
+                    name="save-reviews-note"
                     label="Save reviews note"
                     value={save_note}
                     onChange={(e) => {setSaveNotes(e.target.checked)}}    
@@ -231,8 +236,4 @@ export default function Search ({setScreen}) {
         </div>              
     </form>
     )
-}
-
-Search.propTypes = {
-    setScreen: PropTypes.func.isRequired,
 }

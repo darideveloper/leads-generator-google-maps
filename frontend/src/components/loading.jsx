@@ -5,7 +5,7 @@ export default function Loading() {
         <FullScreen 
             icon={<div className='spinner-border m-4' role='status'></div>}
             title="Loading..."
-            message= ""
+            message={<p></p>}
         ></FullScreen>
     )
 }

@@ -13,11 +13,7 @@ CORS(app)
 
 @app.get ("/")
 def home ():
-    """Home page
-
-    Returns:
-        html: html tenplate for home page (index.html)
-    """
+    """ Home enpoint in get for running statys """
     return ({"app": "leads google maps"}, 200)
 
 @app.post ("/")
@@ -42,8 +38,25 @@ def start_scraper ():
     save_category = True if "save-category" in request.form else False
     save_location = True if "save-location" in request.form else False
     save_details = True if "save-details" in request.form else False
-    save_web_page = True if "save-web-page" in request.form else False
+    save_web_page = True if "save-website" in request.form else False
     wait_time = 5
+    
+    print (f"Keywords: {search_keywords}")
+    print (f"Cities: {search_cities}")
+    print (f"Max: {search_max}")
+    print (f"Min reviews note: {filter_min_reviews_note}")
+    print (f"Min reviews num: {filter_min_reviews_num}")
+    print (f"Skip emails: {filter_skip_emails}")
+    print (f"Save emails: {save_emails}")
+    print (f"Save name: {save_name}")
+    print (f"Save reviews num: {save_reviews_num}")
+    print (f"Save reviews note: {save_reviews_note}")
+    print (f"Save category: {save_category}")
+    print (f"Save location: {save_location}")
+    print (f"Save details: {save_details}")
+    print (f"Save web page: {save_web_page}")
+    
+    return {"hello": "world"}
     
     # Fix filters
     if not filter_min_reviews_note:

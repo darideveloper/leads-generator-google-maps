@@ -7,7 +7,7 @@ export default function FullScreen({icon, title, message}) {
                 {icon}
                 <h1>{title}</h1>
             </div>
-            <p>{message}</p>
+            {message}
         </div>
     )
 }
@@ -15,7 +15,7 @@ export default function FullScreen({icon, title, message}) {
 FullScreen.propTypes = {
     icon: PropTypes.element.isRequired,
     title: PropTypes.string.isRequired,
-    message: PropTypes.string
+    message: PropTypes.element
 }
 
 
