@@ -3,7 +3,17 @@ import Checkbox from "./checkbox"
 import { useContext } from "react"
 import { SearchContext } from "../context/search"
 
-export default function Search () {
+export default function Search ({setScreen}) {
+
+    function submit_form (e) {
+        e.preventDefault()
+    
+        // Submit data tro backend
+        console.log (e.target)
+    
+        // Change screen to loading
+        setScreen('loading')
+    }
 
     // Form variabvles and setters 
     const { 
@@ -41,7 +51,7 @@ export default function Search () {
      } = useContext(SearchContext)
 
     return (
-        <form className="d-flex flex-column" action="/" method="post">
+        <form className="d-flex flex-column" action="/" method="post" onSubmit={submit_form}>
         <div className="row">
             <div className="col-12 col-md-6 p-3">
                 <h2>Search</h2>
