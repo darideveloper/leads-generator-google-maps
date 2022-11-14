@@ -2,7 +2,6 @@ function validate_input (e) {
     // Get valid status
     let input_check = e.target
     let isvalid = input_check.checkValidity ()
-    console.log (isvalid)
 
     // add or remove invalid class
     if (isvalid) {

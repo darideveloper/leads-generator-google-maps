@@ -2,18 +2,17 @@ import { useState } from 'react'
 import Header from './components/header'
 import Footer from './components/footer'
 import Search from './components/search'
+import { SearchContextProvider } from './context/search'
 
 function App() {
-    const [count, setCount] = useState(0)
-
     return (
-      <>
-        <Header />
-        <div className="container">
-          <Search />
-        </div>
-        <Footer />
-      </>
+        <SearchContextProvider>
+            <Header />
+            <div className='container'>
+                <Search />
+            </div>
+            <Footer />
+        </SearchContextProvider>
     )
 }
 

@@ -1,24 +1,44 @@
 import Input from "./input"
 import Checkbox from "./checkbox"
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { SearchContext } from "../context/search"
 
 export default function Search () {
 
-    // Form variables
-    const [ keywords, setKeywords ] = useState ("")
-    const [ cities, setCities ] = useState ("")
-    const [ max, setMax ] = useState ("")
-    const [ reviews_note, setReviewsNote ] = useState ("")
-    const [ reviews_number, setReviewsNumber ] = useState ("")
-    const [ emails, setEmails ] = useState ("")
-    const [ check_emails, setCheckEmails ] = useState (true)
-    const [ check_name, setCheckName ] = useState (true)
-    const [ check_reviews, setCheckReviews ] = useState (true)
-    const [ check_note, setCheckNotes ] = useState (true)
-    const [ check_category, setCheckCategory ] = useState (true)
-    const [ check_location, setCheckLocation ] = useState (true)
-    const [ check_details, setCheckDetails ] = useState (true)
-    const [ check_website, setCheckWebsite ] = useState (true)
+    // Form variabvles and setters
+    const { 
+        keywords,
+        cities,
+        max,
+        reviews_note,
+        reviews_number,
+        emails,
+        save_emails,
+        save_name,
+        save_reviews,
+        save_note,
+        save_category,
+        save_location,
+        save_details,
+        save_website,
+     } = useContext(SearchContext)
+
+     const { 
+        setKeywords,
+        setCities,
+        setMax,
+        setReviewsNote,
+        setReviewsNumber,
+        setEmails,
+        setSaveEmails,
+        setSaveName,
+        setSaveReviews,
+        setSaveNotes,
+        setSaveCategory,
+        setSaveLocation,
+        setSaveDetails,
+        setSaveWebsite,
+     } = useContext(SearchContext)
 
     return (
         <form className="d-flex flex-column" action="/" method="post">
@@ -78,7 +98,7 @@ export default function Search () {
                     error_text="type a number between 0 and 5"
                     min_lenght={1}
                     onChange={(e) => setReviewsNote(e.target.value)}
-                    min={1}
+                    min={0}
                     max={5}
                     >
                 </Input>
@@ -88,7 +108,7 @@ export default function Search () {
                     label="Min number of reviews" 
                     input_type="number" 
                     name="min-reviews-note" 
-                    placeholder="4.5" 
+                    placeholder="20" 
                     help_text="the business with a lower reviews than this number will be skipped"
                     error_text="type a number between 0 and 100"
                     min_lenght={1}
@@ -119,64 +139,64 @@ export default function Search () {
                 <Checkbox
                     name="save-emails"
                     label="Extract and save email from business website"
-                    value={check_emails}
-                    onChange={(e) => {setCheckEmails(e.target.checked)}}    
+                    value={save_emails}
+                    onChange={(e) => {setSaveEmails(e.target.checked)}}    
                     >
                 </Checkbox>
 
                 <Checkbox
                     name="save-name"
                     label="Save business name"
-                    value={check_name}
-                    onChange={(e) => {setCheckName(e.target.checked)}}    
+                    value={save_name}
+                    onChange={(e) => {setSaveName(e.target.checked)}}    
                     >
                 </Checkbox>
 
                 <Checkbox
                     name="save-reviews"
                     label="Save business reviews number"
-                    value={check_reviews}
-                    onChange={(e) => {setCheckReviews(e.target.checked)}}    
+                    value={save_reviews}
+                    onChange={(e) => {setSaveReviews(e.target.checked)}}    
                     >
                 </Checkbox>
 
                 <Checkbox
                     name="save-note"
                     label="Save reviews note"
-                    value={check_note}
-                    onChange={(e) => {setCheckNotes(e.target.checked)}}    
+                    value={save_note}
+                    onChange={(e) => {setSaveNotes(e.target.checked)}}    
                     >
                 </Checkbox>
 
                 <Checkbox
                     name="save-category"
                     label="Save business category"
-                    value={check_category}
-                    onChange={(e) => {setCheckCategory(e.target.checked)}}    
+                    value={save_category}
+                    onChange={(e) => {setSaveCategory(e.target.checked)}}    
                     >
                 </Checkbox>
 
                 <Checkbox
                     name="save-location"
                     label="Save business location"
-                    value={check_location}
-                    onChange={(e) => {setCheckLocation(e.target.checked)}}    
+                    value={save_location}
+                    onChange={(e) => {setSaveLocation(e.target.checked)}}    
                     >
                 </Checkbox>
                 
                 <Checkbox
                     name="save-details"
                     label="Save business details"
-                    value={check_details}
-                    onChange={(e) => {setCheckDetails(e.target.checked)}}    
+                    value={save_details}
+                    onChange={(e) => {setSaveDetails(e.target.checked)}}    
                     >
                 </Checkbox>
 
                 <Checkbox
                     name="save-website"
                     label="Save business website"
-                    value={check_website}
-                    onChange={(e) => {setCheckWebsite(e.target.checked)}}    
+                    value={save_website}
+                    onChange={(e) => {setSaveWebsite(e.target.checked)}}    
                     >
                 </Checkbox>
                               
