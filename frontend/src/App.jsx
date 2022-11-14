@@ -19,7 +19,7 @@ function App() {
             <SampleTable />
         </>)
     } else if (screen == 'loading') {
-        render_screen = (<Loading value='Loading...' />)
+        render_screen = (<Loading />)
     }
 
     return (

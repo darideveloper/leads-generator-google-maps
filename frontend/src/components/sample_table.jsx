@@ -16,7 +16,7 @@ function save_cell_header (header, row, header_item, row_item, conditional, inde
     }
 }
 
-export default function SampleTable({}) {
+export default function SampleTable() {
 
     const [rows, SetRows] = useState([])
     const [headers, SetHeaders] = useState([])

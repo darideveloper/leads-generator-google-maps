@@ -1,3 +1,5 @@
+import PropTypes from "prop-types"
+
 function validate_input (e) {
     // Get valid status
     let input_check = e.target
@@ -33,4 +35,19 @@ export default function Input ({value, label, input_type, name, placeholder, hel
             <p className="error text-danger form-text">{error_text}</p>
         </div>
     )
+}
+
+Input.propTypes = {
+    value: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    input_type: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired,
+    help_text: PropTypes.string.isRequired,
+    error_text: PropTypes.string,
+    min_lenght: PropTypes.number,
+    onChange: PropTypes.func.isRequired,
+    required: PropTypes.bool,
+    min: PropTypes.number,
+    max: PropTypes.number
 }

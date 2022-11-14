@@ -1,3 +1,5 @@
+import PropTypes from "prop-types"
+
 export default function Checkbox({name, label, value, onChange}) {
     return (
         <div className='mb-3 form-check col-12 col-md-3 col-lg-2'>
@@ -17,4 +19,11 @@ export default function Checkbox({name, label, value, onChange}) {
             </label>
         </div>
     )
+}
+
+Checkbox.propTypes = {
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    value: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired
 }

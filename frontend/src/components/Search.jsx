@@ -2,17 +2,30 @@ import Input from "./input"
 import Checkbox from "./checkbox"
 import { useContext } from "react"
 import { SearchContext } from "../context/search"
+import PropTypes from "prop-types"
 
 export default function Search ({setScreen}) {
 
     function submit_form (e) {
         e.preventDefault()
     
-        // Submit data tro backend
-        console.log (e.target)
+        // Submit data to backend
+        const data = new URLSearchParams()
+        for (const pair of new FormData(e.target)) {
+            data.append(pair[0], pair[1])
+        }
+
+        fetch('http://localhost:5000', {
+            method: 'POST',
+            body: data,
+        }).then ((response) => {
+            console.log (response)
+        }).catch ((error) => {
+            console.log (error)
+        })
     
         // Change screen to loading
-        setScreen('loading')
+        // setScreen('loading')
     }
 
     // Form variabvles and setters 
@@ -51,7 +64,7 @@ export default function Search ({setScreen}) {
      } = useContext(SearchContext)
 
     return (
-        <form className="d-flex flex-column" action="/" method="post" onSubmit={submit_form}>
+        <form className="d-flex flex-column" action="localhost:5000" method="post" onSubmit={submit_form}>
         <div className="row">
             <div className="col-12 col-md-6 p-3">
                 <h2>Search</h2>
@@ -218,4 +231,8 @@ export default function Search ({setScreen}) {
         </div>              
     </form>
     )
+}
+
+Search.propTypes = {
+    setScreen: PropTypes.func.isRequired,
 }
