@@ -18,7 +18,7 @@ def home ():
     Returns:
         html: html tenplate for home page (index.html)
     """
-    return render_template ("index.html", is_loading=False)
+    return ({"app": "leads google maps"}, 200)
 
 @app.post ("/")
 def start_scraper ():

@@ -18,6 +18,8 @@ export function SearchContextProvider({ children }) {
     const [save_details, setSaveDetails] = useState(false);
     const [save_website, setSaveWebsite] = useState(true);
     
+    const api_url = "http://localhost:5000"
+
     return (
         <SearchContext.Provider
             value={{
@@ -49,6 +51,7 @@ export function SearchContextProvider({ children }) {
                 setSaveDetails,
                 save_website,
                 setSaveWebsite,
+                api_url
             }}>
             {children}
         </SearchContext.Provider>
