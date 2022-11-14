@@ -1,14 +1,24 @@
 import Input from "./input"
+import Checkbox from "./checkbox"
 import { useState } from "react"
 
 export default function Search () {
 
+    // Form variables
     const [ keywords, setKeywords ] = useState ("")
     const [ cities, setCities ] = useState ("")
     const [ max, setMax ] = useState ("")
     const [ reviews_note, setReviewsNote ] = useState ("")
     const [ reviews_number, setReviewsNumber ] = useState ("")
     const [ emails, setEmails ] = useState ("")
+    const [ check_emails, setCheckEmails ] = useState (true)
+    const [ check_name, setCheckName ] = useState (true)
+    const [ check_reviews, setCheckReviews ] = useState (true)
+    const [ check_note, setCheckNotes ] = useState (true)
+    const [ check_category, setCheckCategory ] = useState (true)
+    const [ check_location, setCheckLocation ] = useState (true)
+    const [ check_details, setCheckDetails ] = useState (true)
+    const [ check_website, setCheckWebsite ] = useState (true)
 
     return (
         <form className="d-flex flex-column" action="/" method="post">
@@ -101,44 +111,77 @@ export default function Search () {
             </div>
         </div>
 
-        {/* <div className="mb-4">
+        <div className="mb-4">
             <h2 className="col-12 mb-3">Save data</h2>
             <p>Select the data to save from each business (select only your required data generate the files faster)</p>
             <div className="row px-3 px-sm-0">
-                <div className="mb-3 form-check col-12 col-md-3 col-lg-2">
-                    <input className="form-check-input" type="checkbox" name="save-emails" id="save-emails" checked column="10" />
-                    <label className="form-check-label" htmlFor="save-emails">Extract and save email from business website</label>
-                </div>
-                <div className="mb-3 form-check col-12 col-md-3 col-lg-2">
-                    <input className="form-check-input" type="checkbox" name="save-name" id="save-name" checked column="3" />
-                    <label className="form-check-label" htmlFor="save-name">Save business name</label>
-                </div>
-                <div className="mb-3 form-check col-12 col-md-3 col-lg-2">
-                    <input className="form-check-input" type="checkbox" name="save-reviews-num" id="save-reviews-num" checked column="4" />
-                    <label className="form-check-label" htmlFor="save-reviews-num">Save business reviews number</label>
-                </div>
-                <div className="mb-3 form-check col-12 col-md-3 col-lg-2">
-                    <input className="form-check-input" type="checkbox" name="save-reviews-note" id="save-reviews-note" checked column="5" />
-                    <label className="form-check-label" htmlFor="save-reviews-note">Save reviews note</label>
-                </div>
-                <div className="mb-3 form-check col-12 col-md-3 col-lg-2">
-                    <input className="form-check-input" type="checkbox" name="save-category" id="save-category" checked column="6" />
-                    <label className="form-check-label" htmlFor="save-category">Save business category</label>
-                </div>
-                <div className="mb-3 form-check col-12 col-md-3 col-lg-2">
-                    <input className="form-check-input" type="checkbox" name="save-location" id="save-location" checked column="7" />
-                    <label className="form-check-label" htmlFor="save-location">Save business location</label>
-                </div>
-                <div className="mb-3 form-check col-12 col-md-3 col-lg-2">
-                    <input className="form-check-input" type="checkbox" name="save-details" id="save-details" checked column="9" />
-                    <label className="form-check-label" htmlFor="save-details">Save business details</label>
-                </div>
-                <div className="mb-3 form-check col-12 col-md-3 col-lg-2">
-                    <input className="form-check-input" type="checkbox" name="save-web-page" id="save-web-page" checked column="9" />
-                    <label className="form-check-label" htmlFor="save-web-page">Save business website</label>
-                </div>                    
+
+                <Checkbox
+                    name="save-emails"
+                    label="Extract and save email from business website"
+                    value={check_emails}
+                    onChange={(e) => {setCheckEmails(e.target.checked)}}    
+                    >
+                </Checkbox>
+
+                <Checkbox
+                    name="save-name"
+                    label="Save business name"
+                    value={check_name}
+                    onChange={(e) => {setCheckName(e.target.checked)}}    
+                    >
+                </Checkbox>
+
+                <Checkbox
+                    name="save-reviews"
+                    label="Save business reviews number"
+                    value={check_reviews}
+                    onChange={(e) => {setCheckReviews(e.target.checked)}}    
+                    >
+                </Checkbox>
+
+                <Checkbox
+                    name="save-note"
+                    label="Save reviews note"
+                    value={check_note}
+                    onChange={(e) => {setCheckNotes(e.target.checked)}}    
+                    >
+                </Checkbox>
+
+                <Checkbox
+                    name="save-category"
+                    label="Save business category"
+                    value={check_category}
+                    onChange={(e) => {setCheckCategory(e.target.checked)}}    
+                    >
+                </Checkbox>
+
+                <Checkbox
+                    name="save-location"
+                    label="Save business location"
+                    value={check_location}
+                    onChange={(e) => {setCheckLocation(e.target.checked)}}    
+                    >
+                </Checkbox>
+                
+                <Checkbox
+                    name="save-details"
+                    label="Save business details"
+                    value={check_details}
+                    onChange={(e) => {setCheckDetails(e.target.checked)}}    
+                    >
+                </Checkbox>
+
+                <Checkbox
+                    name="save-website"
+                    label="Save business website"
+                    value={check_website}
+                    onChange={(e) => {setCheckWebsite(e.target.checked)}}    
+                    >
+                </Checkbox>
+                              
             </div>
-        </div> */}
+        </div>
 
         <div className="d-flex justify-content-center my-5">
             <button className="btn btn-primary w-25" type="submit">Start</button>
