@@ -11,11 +11,11 @@ export function SearchContextProvider({ children }) {
     const [emails, setEmails] = useState("");
     const [save_emails, setSaveEmails] = useState(true);
     const [save_name, setSaveName] = useState(true);
-    const [save_reviews, setSaveReviews] = useState(true);
-    const [save_note, setSaveNotes] = useState(true);
-    const [save_category, setSaveCategory] = useState(true);
-    const [save_location, setSaveLocation] = useState(true);
-    const [save_details, setSaveDetails] = useState(true);
+    const [save_reviews, setSaveReviews] = useState(false);
+    const [save_note, setSaveNotes] = useState(false);
+    const [save_category, setSaveCategory] = useState(false);
+    const [save_location, setSaveLocation] = useState(false);
+    const [save_details, setSaveDetails] = useState(false);
     const [save_website, setSaveWebsite] = useState(true);
     
     return (

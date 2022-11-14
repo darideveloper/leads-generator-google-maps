@@ -1,11 +1,11 @@
 import Input from "./input"
 import Checkbox from "./checkbox"
-import { useState, useContext } from "react"
+import { useContext } from "react"
 import { SearchContext } from "../context/search"
 
 export default function Search () {
 
-    // Form variabvles and setters
+    // Form variabvles and setters 
     const { 
         keywords,
         cities,
@@ -137,14 +137,6 @@ export default function Search () {
             <div className="row px-3 px-sm-0">
 
                 <Checkbox
-                    name="save-emails"
-                    label="Extract and save email from business website"
-                    value={save_emails}
-                    onChange={(e) => {setSaveEmails(e.target.checked)}}    
-                    >
-                </Checkbox>
-
-                <Checkbox
                     name="save-name"
                     label="Save business name"
                     value={save_name}
@@ -197,6 +189,14 @@ export default function Search () {
                     label="Save business website"
                     value={save_website}
                     onChange={(e) => {setSaveWebsite(e.target.checked)}}    
+                    >
+                </Checkbox>
+
+                <Checkbox
+                    name="save-emails"
+                    label="Extract and save email from business website"
+                    value={save_emails}
+                    onChange={(e) => {setSaveEmails(e.target.checked)}}    
                     >
                 </Checkbox>
                               
