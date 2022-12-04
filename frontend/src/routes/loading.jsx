@@ -1,4 +1,4 @@
-import FullScreen from "./full_screen"
+import FullScreen from "../components/full_screen"
 import { useContext } from "react"
 import { ScreenContext } from "../context/screen"
 

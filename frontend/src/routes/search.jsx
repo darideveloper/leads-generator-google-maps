@@ -1,5 +1,5 @@
-import Input from "./input"
-import Checkbox from "./checkbox"
+import Input from "../components/input"
+import Checkbox from "../components/checkbox"
 import { useContext } from "react"
 import { SearchContext } from "../context/search"
 import { ScreenContext } from "../context/screen"
@@ -24,8 +24,6 @@ export default function Search () {
         fetch(`${api_url}`, {
             method: 'POST',
             body: data,
-        }).then ((response) => {
-            console.log (response)
         })
     
     }

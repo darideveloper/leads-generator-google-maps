@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react"
 
 export const ScreenContext = createContext()
 
-const api_url = "http://localhost:5000"
+export const api_url = "http://localhost:5000"
 
 function sleep(s) {
     return new Promise(resolve => setTimeout(resolve, s*1000));
@@ -44,8 +44,13 @@ export function ScreenContextProvider({ children }) {
             let status_endpoint = `${api_url}/status`
             fetch(status_endpoint, {method: 'GET'}, setTimeout(() => {}, 1000))
             .then((response) => response.json())
-            .then ((data) => {console.log (data.status); setLoadingStatus(data.status)})
-            .catch ((error) => {console.log (data.status); setLoadingStatus("")})
+            .then ((data) => {
+                setLoadingStatus(data.status)
+                if (data.status == "done") {
+                    setScreen("results")
+                }
+            })
+            .catch ((error) => {setLoadingStatus("")})
 
             await sleep (5)
 
